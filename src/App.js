@@ -16,7 +16,8 @@ const App = () => {
   const [password, setPassword] = useState(''); 
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState(''); 
-  const [hasAccount, setHasAccount] = useState(false); 
+  const [hasAccount, setHasAccount] = useState(false);
+  const [loading, setLoading] = useState(true);  
   
   // clear text inputs 
   const clearInputs = () => {
@@ -86,17 +87,20 @@ const App = () => {
         clearInputs();
         // set the 'user' state variable to the current user
         setUser(user);
+        setLoading(false);
+
       }
       else {
         setUser(''); 
+        setLoading(false);
       }
     })
   }
 
   //useEffect runs as soon as the page loads 
   useEffect(() => {
-    // check if a user is already logged in so that we know which page to display
     authListener(); 
+    // check if a user is already logged in so that we know which page to display
   }, [])
 
   return (
@@ -104,10 +108,9 @@ const App = () => {
       <section className = "banner">
         <h1 className = "title">HUNGER WARRIOR</h1>
       </section>
-      {/* Check if a user is logged in. If so, display homepage. Else, display login page*/}
-      {user ? (
-        <HomePage handleLogout = {handleLogout} />
-      ) : (<Login email = {email} 
+      {loading? 
+      <div className = "loader"></div>: 
+      !user ? (<Login email = {email} 
         setEmail = {setEmail} 
         password = {password} 
         setPassword = {setPassword}
@@ -117,7 +120,13 @@ const App = () => {
         setHasAccount = {setHasAccount}
         emailError = {emailError}
         passwordError = {passwordError}
-/>)}
+/>) : (
+        <HomePage handleLogout = {handleLogout} />
+      ) 
+    
+      }
+      {/* Check if a user is logged in. If so, display homepage. Else, display login page*/}
+     
       </div>
   );
 }
