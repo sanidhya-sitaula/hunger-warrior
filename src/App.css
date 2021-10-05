@@ -1,38 +1,169 @@
-.App {
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Lato";
+}
+
+body{
+  background-color: #d6fffc;
+}
+
+.banner{
+  margin-top : 2%;
+}
+
+.title{
   text-align: center;
+  font-family : 'Lato';
+  font-weight : 800;
+  letter-spacing: 0.7em;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+button {
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 15px 0;
+  color: #fff;
+  font-size: 16px;
+  letter-spacing: 1px;
+  background: #07646b;
+  cursor: pointer;
+  transition : 0.6s background-color;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+button:hover{
+  background : #0a8b94;
 }
 
-.App-header {
-  background-color: #282c34;
+.login {
+  width: 100%;
   min-height: 100vh;
+  padding: 0 20px;
+  display: flex;
+}
+
+.login .loginContainer {
+  padding: 60px;
+  margin: auto;
+  width: 100%;
+  max-width: 520px;
+  min-height: 500px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  background: radial-gradient(
+    ellipse at left bottom,
+    rgb(30, 90, 102) 0%,
+    rgba(27, 138, 138, 0.9) 59%,
+    rgba(17, 124, 101, 0.9) 100%
+  );
+  box-shadow: 0 50px 70px -20px rgba(0, 0, 0, 0.8);
+}
+
+.login .loginContainer h2 {
+  text-align: center;
+  color : #e0e0e0;
+  margin-bottom: 10%;
+}
+
+.login .loginContainer label {
   color: white;
+  margin: 14px 0;
+  display: block;
+  font-size: 18px;
+  line-height: 1;
 }
 
-.App-link {
-  color: #61dafb;
+.login .loginContainer input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgb(185, 185, 185);
+  outline: none;
+  font-size: 19px;
+  padding: 10px;
+  background:transparent;
+  color: #fff;
+  letter-spacing: 1px;
+  transition : 0.2s border-bottom;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.login .loginContainer input:focus{
+  border-bottom: 1px solid white;
+}
+
+
+.login .loginContainer .btnContainer {
+  width: 100%;
+  padding: 24px 0;
+}
+
+.login .loginContainer .btnContainer p {
+  margin: 14px 0 0 0;
+  text-align: right;
+  color: #fff;
+}
+
+.login .loginContainer .btnContainer p span {
+  color: yellow;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-left: 5px;
+  cursor: pointer;
+  transition: all 400ms ease-in-out;
+}
+
+.login .loginContainer .btnContainer p span:hover {
+  color: red;
+}
+
+.login .loginContainer .errorMsg {
+  color: red;
+  font-size: 16px;
+}
+
+.hero {
+  width: 100%;
+  min-height: 100vh;
+  background: #d6fffc
+}
+
+.hero .navbar{
+  display : flex;
+  width : 100%;
+  background-color: rgb(190, 243, 250);
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  margin-top : 2%;
+}
+
+.hero .navbar nav  {
+  width : 80%;
+  display: flex;
+  align-items: center;
+  justify-content:right;
+}
+
+.hero nav a{
+  margin-right:20px;
+  transition : border-bottom 0.2s;
+}
+
+.hero nav a:hover{
+  cursor : pointer;
+  border-bottom: 1px solid black;
+}
+
+.hero nav button {
+  width: 86px;
+  padding: 8px 0;
+  color : black;
+  background : transparent;
+  transition : 0.6s border-bottom;
+}
+
+.hero nav button:hover{
+  border-bottom : 1px solid black;
 }
