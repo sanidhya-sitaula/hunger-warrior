@@ -168,6 +168,14 @@ button:hover{
   border-bottom : 1px solid black;
 }
 
+#type{
+  background-color: transparent;
+  padding: 10px;
+  border: none;
+  border-bottom : 1px solid rgb(185, 185, 185);
+  color : white;
+}
+
 .loader {
   color: rgba(17, 124, 101, 0.9);
   font-size: 90px;

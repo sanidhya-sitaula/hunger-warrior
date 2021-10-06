@@ -1,11 +1,11 @@
 import React from 'react'; 
 
 const HomePage = (props) => {
-    const {handleLogout} = props; 
+    const {user, handleLogout, userDetails} = props; 
     return (
         <section className = "hero">
             <div className = "navbar">
-                <h2>Welcome, user!</h2>
+                <h2>Welcome, {userDetails.name}!</h2>
                 <nav>
                     <a>Profile</a>
                     <a>Settings</a>

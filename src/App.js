@@ -3,6 +3,7 @@ import React, {useState, useEffect} from "react";
 import fire from './fire'; 
 import Login from './components/Login'; 
 import HomePage from './components/HomePage'; 
+import {handleLogin, handleLogout, authListener, handleSignUp} from './functions/index'; 
 
 const App = () => {
   
@@ -12,12 +13,14 @@ const App = () => {
   const [VARIABLE_NAME, FUNCTION_TO_CHANGE_THE_VARIABLE] = useState(INITIAL_VARIABLE_VALUE)
   */
   const [user, setUser] = useState(''); 
+  const [userDetails, setUserDetails] = useState({}); 
   const [email, setEmail] = useState(''); 
   const [password, setPassword] = useState(''); 
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState(''); 
   const [hasAccount, setHasAccount] = useState(false);
   const [loading, setLoading] = useState(true);  
+  
   
   // clear text inputs 
   const clearInputs = () => {
@@ -31,75 +34,10 @@ const App = () => {
     setPasswordError('');
   }
 
-  // handles login 
-  const handleLogin = () => {
-    clearErrors(); 
-    //authenticate with firebase 
-      fire
-        .auth()
-        .signInWithEmailAndPassword(email, password) 
-        .catch(err => {
-          switch(err.code){
-            case "auth/invalid-email":
-            case "auth/user-disabled":
-            case "auth/user-not-found":
-              // in case we get these errors, set the emailError variable to the error message
-              setEmailError(err.message); 
-              break;
-            case "auth/wrong-password":
-              // same as above
-              setPasswordError(err.message); 
-              break; 
-          }
-        })
-  }
-
-  // handle Sign Up 
-  const handleSignUp = () => {
-    clearErrors();
-    // authenticate with fireabase
-    fire
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .catch(err => {
-          switch(err.code){
-            case "auth/email-already-in-use":
-            case "auth/invalid-email":
-              setEmailError(err.message); 
-              break;
-            case "auth/weak-password":
-              setPasswordError(err.message); 
-              break; 
-          }
-        })
-  }
-
-  // handle logout 
-  const handleLogout = () => {
-    fire.auth().signOut(); 
-  }
-
-  // check to see if a user is already logged in 
-  const authListener = () => {
-    fire.auth().onAuthStateChanged(user => {
-      if (user){
-        // if so, clear all inputs
-        clearInputs();
-        // set the 'user' state variable to the current user
-        setUser(user);
-        setLoading(false);
-
-      }
-      else {
-        setUser(''); 
-        setLoading(false);
-      }
-    })
-  }
 
   //useEffect runs as soon as the page loads 
   useEffect(() => {
-    authListener(); 
+    authListener(setUser, setLoading, setUserDetails); 
     // check if a user is already logged in so that we know which page to display
   }, [])
 
@@ -110,18 +48,25 @@ const App = () => {
       </section>
       {loading? 
       <div className = "loader"></div>: 
-      !user ? (<Login email = {email} 
-        setEmail = {setEmail} 
-        password = {password} 
-        setPassword = {setPassword}
-        handleLogin = {handleLogin}
-        handleSignUp = {handleSignUp}
-        hasAccount = {hasAccount}
-        setHasAccount = {setHasAccount}
-        emailError = {emailError}
-        passwordError = {passwordError}
-/>) : (
-        <HomePage handleLogout = {handleLogout} />
+        !user ? (<Login email = {email} 
+          setEmail = {setEmail} 
+          password = {password} 
+          setPassword = {setPassword}
+          handleLogin = {handleLogin}
+          handleSignUp = {handleSignUp}
+          hasAccount = {hasAccount}
+          setHasAccount = {setHasAccount}
+          emailError = {emailError}
+          passwordError = {passwordError}
+          setEmailError = {setEmailError}
+          setPasswordError = {setPasswordError}
+          userDetails = {userDetails}
+          setUserDetails = {setUserDetails}
+      />) : (
+        <HomePage 
+          handleLogout = {handleLogout} user = {user} 
+          userDetails = {userDetails}
+          />
       ) 
     
       }
