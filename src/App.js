@@ -3,6 +3,9 @@ import React, {useState, useEffect} from "react";
 import fire from './fire'; 
 import Login from './components/Login'; 
 import HomePage from './components/HomePage'; 
+import ShelterHomePage from './components/ShelterHomePage'; 
+import StoreHomePage from './components/StoreHomePage'; 
+import { BrowserRouter as Router, Switch, Route, withRouter} from 'react-router-dom'; 
 import {handleLogin, handleLogout, authListener, handleSignUp} from './functions/index'; 
 
 const App = () => {
@@ -63,15 +66,16 @@ const App = () => {
           userDetails = {userDetails}
           setUserDetails = {setUserDetails}
       />) : (
-        <HomePage 
+        (userDetails.type === 'Shelter' ? 
+        <ShelterHomePage
           handleLogout = {handleLogout} user = {user} 
-          userDetails = {userDetails}
-          />
-      ) 
-    
+          userDetails = {userDetails}/>
+        : <StoreHomePage
+          handleLogout = {handleLogout} user = {user} 
+          userDetails = {userDetails}/>
+        )
+      )
       }
-      {/* Check if a user is logged in. If so, display homepage. Else, display login page*/}
-     
       </div>
   );
 }
