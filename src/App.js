@@ -1,8 +1,8 @@
 import './App.css';
 import React, {useState, useEffect} from "react"; 
-import fire from './fire'; 
+// import fire from './fire'; 
 import Login from './components/Login'; 
-import HomePage from './components/HomePage'; 
+// import HomePage from './components/HomePage'; 
 import ShelterHomePage from './components/ShelterHomePage'; 
 import StoreHomePage from './components/StoreHomePage'; 
 import { BrowserRouter as Router, Switch, Route, withRouter} from 'react-router-dom'; 
