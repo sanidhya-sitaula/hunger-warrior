@@ -279,6 +279,15 @@ Link{
   box-shadow: 0 10px 10px -6px rgba(197, 196, 196, 0.8);
 }
 
+.MuiPaper-root{
+  background: radial-gradient(
+    ellipse at left bottom,
+    rgb(236, 237, 237) 0%,
+    rgba(255, 255, 255, 0.9) 59%,
+    rgba(255, 255, 255, 0.9) 100%
+  );;
+}
+
 .MuiTypography-root{
   font-family: 'Lato' !important;
 }
@@ -301,9 +310,27 @@ Link{
 }
 
 .section-title{
+  font-weight: 500;
   margin-top: 2%;
 }
 
 #card2:hover{
   cursor:pointer;
+}
+
+.current_requests{
+  margin-top: 2%;
+}
+
+.new-request-form{
+  text-align: center;
+  margin-top: 2%;
+}
+
+.new-request-form-items{
+  list-style: none;
+}
+
+.new-request-form-items li {
+  margin-bottom: 2%;
 }

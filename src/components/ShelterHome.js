@@ -9,26 +9,55 @@ import {
 import Tax from "./Tax";
 import History from "./History";
 import Grid from "@mui/material/Grid";
-import { getListings } from "../functions/index";
+import { getListings, getShelterRequests } from "../functions/index";
 import MediaCard from "./Card";
 import MediaCard2 from "./Card2";
+import Footer from './Footer'; 
+import { Link } from 'react-router-dom'; 
+
+export let displayListings = () => {}; 
 
 const ShelterHome = (props) => {
   const { user, handleLogout, userDetails } = props;
 
   const [listings, setListings] = useState([{}]);
+  const [requests, setRequests] = useState([{}]); 
+
   useEffect(() => {
     getListings("", setListings);
+    getShelterRequests(userDetails.email, setRequests); 
   }, []);
 
-  const displayListings = (listings, num_items) => {
+  const displayRequests = (requests) => {
+      return requests.map(request => {
+          return (
+            <Grid
+            item
+            xs={3}
+            style={{ display: "inline-flex", marginRight: "10px" }}
+          >
+            <MediaCard
+              name={request.item_name}
+              store_email={request.store_email}
+              store_name={request.store_name}
+              quantity={request.item_quantity}
+              request_status = {request.request_status}
+              available = "Not Applicable"
+            />
+          </Grid>
+          )
+      })
+  }
+
+    displayListings = (listings, num_items = '') => {
+    if (num_items === '') {num_items = listings.length}
     return listings.slice(0, num_items).map((listing) => {
       console.log(listing);
       return (
         <Grid
           item
           xs={3}
-          style={{ display: "inline-flex", marginLeft: "10px" }}
+          style={{ display: "inline-flex", marginRight: "10px" }}
         >
           <MediaCard
             name={listing.name}
@@ -53,7 +82,7 @@ const ShelterHome = (props) => {
       <div class="homepage-section">
         <h2 class="section-title">Ongoing Orders</h2>
         <div className="ongoing-orders">
-          <div className="ongoing-orders-details">No ongoing orders</div>
+          <div className="ongoing-orders-details">No ongoing orders. Order an item from the available listings below.</div>
         </div>
         <div className="border" />
       </div>
@@ -63,29 +92,32 @@ const ShelterHome = (props) => {
         <Grid container spacing={2} style={{ marginTop: "2%" }}>
           <Grid item xs={9}>
             <div className="orders">
-              {listings ? displayListings(listings, 2) : null}
+              {listings ? displayListings(listings, 3) : null}
               <Grid
                 item
                 xs={3}
                 style={{ display: "inline-flex", marginLeft: "10px" }}
               >
-                <MediaCard2 name="See All Listings..." />
+                <Link to = "/listings" style = {{textDecoration:"None"}}><MediaCard2 name="See All Listings..." icon = "view_all"/></Link>
               </Grid>
             </div>
           </Grid>
         </Grid>
         <div className="border" />
       </div>
+
       <div class="homepage-section">
-        <h2 class="section-title">Add Request</h2>
+        <h2 class="section-title">Current Requests</h2>
+            <div className = "current_requests">
+                {requests ? displayRequests(requests) : null}
+                <Grid item xs = {3}  style={{ display: "inline-flex" }} >
+                    <Link to = '/request' style = {{textDecoration : "None"}}><MediaCard2 name = "Make a New Request..." icon = "plus"/></Link>
+                </Grid>
+            </div>
         <div className="border" />
       </div>
 
-      <div class="homepage-section">
-        <h2 class="section-title">History</h2>
-        <div className="listings"></div>
-        <div className="border" />
-      </div>
+      <Footer />
     </div>
   );
 };
