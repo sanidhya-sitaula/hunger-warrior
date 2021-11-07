@@ -1,6 +1,6 @@
 import React from 'react'; 
 
-const HomePage = (props) => {
+const Dashboard = (props) => {
     const {user, handleLogout, userDetails} = props; 
     return (
         <section className = "hero">
@@ -17,4 +17,4 @@ const HomePage = (props) => {
     )
 }
 
-export default HomePage;
+export default Dashboard;

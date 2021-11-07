@@ -6,7 +6,7 @@
 }
 
 body{
-  background-color: #d6fffc;
+  background-color:#f5ffff;
 }
 
 .banner{
@@ -124,9 +124,12 @@ button:hover{
 }
 
 .hero {
-  width: 100%;
+  margin-left: 2%;
+  margin-right: 2%;
+  width: 96%;
   min-height: 100vh;
-  background: #e2fdfb
+  background:#f5ffff;
+  
 }
 
 .hero .navbar{
@@ -140,13 +143,14 @@ button:hover{
 }
 
 .hero .navbar nav  {
-  width : 80%;
+  width : 100%;
   display: flex;
   align-items: center;
-  justify-content:right;
+  justify-content:center;
 }
 
 .hero nav a{
+  color : black;
   margin-right:20px;
   transition : border-bottom 0.2s;
 }
@@ -255,4 +259,51 @@ button:hover{
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
+}
+
+.MuiAppBar-root{
+  font-family: 'Lato' !important;
+  background-color: #ade9f7  !important;
+  color : black !important;
+  font-weight : 200 !important; 
+}
+
+Link{
+  margin-right: 5%;
+}
+
+.details_grid{
+  height : 100px;
+  border : 1px solid #b8b8b8;
+  background: #edf9ff;
+  box-shadow: 0 10px 10px -6px rgba(197, 196, 196, 0.8);
+}
+
+.MuiTypography-root{
+  font-family: 'Lato' !important;
+}
+
+.homepage-section{
+  margin-bottom : 20px;
+}
+
+.ongoing-orders-details{
+  margin-top : 20px;
+}
+
+.border {
+  width : 30%; 
+  margin-left: 35%;
+  margin-right: 35%;
+  margin-top: 2%;
+  height : 1px;
+  background: linear-gradient(90deg, hsl(0, 0%, 80%), hsl(0, 0%, 20%), hsl(0, 0%, 80%));
+}
+
+.section-title{
+  margin-top: 2%;
+}
+
+#card2:hover{
+  cursor:pointer;
 }

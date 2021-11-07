@@ -27,13 +27,13 @@ const Login = (props) => {
                 {hasAccount ?
                 <>
                  <h2 className = "loginContainerMessage">Log Into Your Account</h2> 
+                 <label>Email</label>
                 <input type = "text" autoFocus required value = {email} onChange = {e => setEmail(e.target.value)} />
                 <p className = "errorMsg">{emailError}</p>
                 <label>Password</label>
                 <input type = "password" required value = {password} onChange = {e => setPassword(e.target.value)} />
                 <p className = "errorMsg">{passwordError}</p>
                  </>
-                 
                  : 
                  <>
                  <h2 className = "loginContainerMessage">Sign Up For an Account</h2> 

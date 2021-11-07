@@ -2,9 +2,16 @@ import './App.css';
 import React, {useState, useEffect} from "react"; 
 import fire from './fire'; 
 import Login from './components/Login'; 
-import HomePage from './components/HomePage'; 
+import HomePage from './components/Dashboard'; 
+// backend 
 import {handleLogin, handleLogout, authListener, handleSignUp} from './functions/index'; 
+import StoreHome from './components/StoreHome';
+import ShelterHome from './components/ShelterHome';
+import Tax from './components/Tax';
+import History from './components/History'; 
+import {BrowserRouter as Router, Switch, Route, BrowserRouter, withRouter} from 'react-router-dom'; 
 
+// function
 const App = () => {
   
   // state variables 
@@ -21,7 +28,6 @@ const App = () => {
   const [hasAccount, setHasAccount] = useState(false);
   const [loading, setLoading] = useState(true);  
   
-  
   // clear text inputs 
   const clearInputs = () => {
     setEmail('');
@@ -34,7 +40,6 @@ const App = () => {
     setPasswordError('');
   }
 
-
   //useEffect runs as soon as the page loads 
   useEffect(() => {
     authListener(setUser, setLoading, setUserDetails); 
@@ -43,12 +48,15 @@ const App = () => {
 
   return (
     <div className="App">
-      <section className = "banner">
+        <section className = "banner">
         <h1 className = "title">HUNGER WARRIOR</h1>
-      </section>
+        </section>
+      
       {loading? 
-      <div className = "loader"></div>: 
-        !user ? (<Login email = {email} 
+      <div className = "loader"></div> : 
+        
+        !user ? (
+        <Login email = {email} 
           setEmail = {setEmail} 
           password = {password} 
           setPassword = {setPassword}
@@ -62,16 +70,27 @@ const App = () => {
           setPasswordError = {setPasswordError}
           userDetails = {userDetails}
           setUserDetails = {setUserDetails}
-      />) : (
-        <HomePage 
-          handleLogout = {handleLogout} user = {user} 
-          userDetails = {userDetails}
-          />
-      ) 
-    
+      />) : 
+      (
+        (userDetails.type === 'Shelter' ? 
+        <Router> 
+          <Switch>
+              <Route path = '/tax' component = {withRouter(Tax)} />
+              <Route path = '/history' component = {withRouter(History)} />
+              <Route exact path = '/' component = {() => <ShelterHome user = {user} handleLogout = {handleLogout} userDetails = {userDetails}/>} />
+          </Switch>
+       </Router>
+        :  
+        <Router> 
+          <Switch>
+            <Route path = '/tax' component = {withRouter(Tax)} />
+            <Route path = '/history' component = {withRouter(History)} />
+            <Route exact path = '/' component = {() => <StoreHome user = {user} handleLogout = {handleLogout} userDetails = {userDetails}/>} />
+        </Switch>
+     </Router>
+     ))
       }
       {/* Check if a user is logged in. If so, display homepage. Else, display login page*/}
-     
       </div>
   );
 }

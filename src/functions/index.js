@@ -7,6 +7,11 @@ export const getUserDetails = (email, setUserDetails) => {
         setUserDetails(doc.data()))
 }
 
+export const getListings  = async (email = '', setListings) => {
+  const listings = await db.collection('/listings/').get();
+  setListings(listings.docs.map(doc => doc.data()));
+}
+
 export const handleLogin = (email, password, setEmailError, setPasswordError, setUserDetails) => {
     //clearErrors(); 
     //authenticate with firebase 
