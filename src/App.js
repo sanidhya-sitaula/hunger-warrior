@@ -9,6 +9,8 @@ import StoreHome from './components/StoreHome';
 import ShelterHome from './components/ShelterHome';
 import Tax from './components/Tax';
 import History from './components/History'; 
+import Profile from './components/Profile';
+
 import {BrowserRouter as Router, Switch, Route, BrowserRouter, withRouter} from 'react-router-dom'; 
 
 // function
@@ -77,6 +79,7 @@ const App = () => {
           <Switch>
               <Route path = '/tax' component = {withRouter(Tax)} />
               <Route path = '/history' component = {withRouter(History)} />
+              <Route path = '/profile' component = {() => <Profile user = {user} handleLogout = {handleLogout} userDetails = {userDetails}/>} />
               <Route exact path = '/' component = {() => <ShelterHome user = {user} handleLogout = {handleLogout} userDetails = {userDetails}/>} />
           </Switch>
        </Router>
@@ -85,6 +88,7 @@ const App = () => {
           <Switch>
             <Route path = '/tax' component = {withRouter(Tax)} />
             <Route path = '/history' component = {withRouter(History)} />
+            <Route path = '/profile' component = {() => <Profile user = {user} handleLogout = {handleLogout} userDetails = {userDetails}/>} />
             <Route exact path = '/' component = {() => <StoreHome user = {user} handleLogout = {handleLogout} userDetails = {userDetails}/>} />
         </Switch>
      </Router>

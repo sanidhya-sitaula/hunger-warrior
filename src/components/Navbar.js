@@ -11,6 +11,7 @@ import Tax from './Tax';
 import History from './History'; 
 import ShelterHome from './ShelterHome'; 
 import StoreHome from './StoreHome'; 
+import Profile from './Profile';
 
 export default function NavBar(props) {
 
@@ -27,6 +28,9 @@ const {user, handleLogout, userDetails} = props;
             </Link></a>
             <a><Link to = '/history' style = {{ textDecoration : 'none'}}>
                 History
+            </Link></a>
+            <a><Link to = '/profile' style = {{ textDecoration : 'none'}}>
+                Profile
             </Link></a>
             <a color="inherit" onClick = {handleLogout}>Logout</a>
             </nav>
