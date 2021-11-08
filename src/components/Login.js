@@ -8,9 +8,10 @@ const Login = (props) => {
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
     const [phone, setPhone] = useState(''); 
+    const [image, setImage] = useState(''); 
     const [type, setType] = useState(''); 
 
-    const {email, setEmail,  password, 
+    const {email, setEmail, password, 
     setPassword,
     hasAccount ,
     setHasAccount ,
@@ -55,6 +56,8 @@ const Login = (props) => {
                 <label>Password</label>
                 <input type = "password" required value = {password} onChange = {e => setPassword(e.target.value)} />
                 <p className = "errorMsg">{passwordError}</p>
+                <label>Image (Link to image)</label>
+                <input type = "text" value = {image} onChange = {e => setImage(e.target.value)} />
                 </>
             }   
                 <div className = "btnContainer">
@@ -66,7 +69,7 @@ const Login = (props) => {
 
                     ): (
                         <>
-                            <button onClick = {() => handleSignUp(name, location, phone, type, email, password, setEmailError, setPasswordError, setUserDetails)}>Sign up</button>
+                            <button onClick = {() => handleSignUp(name, location, phone, type, email, password, image, setEmailError, setPasswordError, setUserDetails)}>Sign up</button>
                             <p>Have an account? <span onClick = {() => setHasAccount(!hasAccount)}>Sign In</span></p>
                         </>
                     )}

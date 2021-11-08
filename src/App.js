@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import fire from "./fire";
 import Login from "./components/Login";
 import HomePage from "./components/Dashboard";
+import { getAllStores } from "./functions/index";
+
 // backend
 import {
   handleLogin,
@@ -39,6 +41,7 @@ const App = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [hasAccount, setHasAccount] = useState(false);
+  const [stores, setStores] = useState([{}]); 
   const [loading, setLoading] = useState(true);
 
   // clear text inputs
@@ -56,6 +59,7 @@ const App = () => {
   //useEffect runs as soon as the page loads
   useEffect(() => {
     authListener(setUser, setLoading, setUserDetails);
+    getAllStores(setStores); 
     // check if a user is already logged in so that we know which page to display
   }, []);
 
@@ -89,7 +93,7 @@ const App = () => {
           <Switch>
             <Route path="/tax" component={withRouter(Tax)} />
             <Route path="/history" component={withRouter(History)} />
-            <Route path = "/request" component = {() => (<CreateRequest user = {user} userDetails = {userDetails} handleLogout = {handleLogout}/>)} /> 
+            <Route path = "/request" component = {() => (<CreateRequest user = {user} userDetails = {userDetails} handleLogout = {handleLogout} stores = {stores}/>)} /> 
             <Route path = "/listings" component = {withRouter(AllListings)} /> 
             <Route
               exact
@@ -99,6 +103,7 @@ const App = () => {
                   user={user}
                   handleLogout={handleLogout}
                   userDetails={userDetails}
+                  stores = {stores}
                 />
               )}
             />

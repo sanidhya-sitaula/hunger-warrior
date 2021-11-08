@@ -334,3 +334,43 @@ Link{
 .new-request-form-items li {
   margin-bottom: 2%;
 }
+
+.store_information{
+  margin-top : 3%;
+  border : 1px solid #b8b8b8;
+  padding: 20px;
+  background: radial-gradient(
+    ellipse at left bottom,
+    rgb(236, 237, 237) 0%,
+    rgba(255, 255, 255, 0.9) 59%,
+    rgba(255, 255, 255, 0.9) 100%
+  );
+  box-shadow: 0 30px 70px -65px rgba(0, 0, 0, 0.8);
+}
+
+.store_location{
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+.store_phone{
+  margin-bottom: 2%;
+}
+
+.store_title{
+  font-weight: 400;
+}
+
+.store_information_buttons{
+  display : inline-flex; 
+}
+
+.store_information_btn{
+  width : 400px !important;
+  height : 40%;
+  margin-right : 6%;
+}
+
+.store_picture{
+  margin-bottom: 2%;
+}

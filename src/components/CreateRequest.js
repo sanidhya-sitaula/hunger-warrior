@@ -9,16 +9,11 @@ import { useHistory } from 'react-router-dom'
 const CreateRequest = (props) => {
 const history = useHistory();
 
-  const [stores, setStores] = useState([{}]);
   const [selectedStore, setSelectedStore] = useState('');
   const [itemName, setItemName] = useState('');
   const [itemQuantity, setItemQuantity] = useState('');
 
-  const { handleLogout, userDetails } = props;
-
-  useEffect(() => {
-    getAllStores(setStores);
-  }, []);
+  const { handleLogout, userDetails, stores } = props;
 
   const handleOnchange = (e) => {
     setSelectedStore(e.target.value);
@@ -34,7 +29,6 @@ const history = useHistory();
     }
     
     stores.map(store => {
-        console.log(store);
         if (store.store_email === request.store_email){
             request['store_name'] = store.store_name; 
         }
