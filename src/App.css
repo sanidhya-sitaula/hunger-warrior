@@ -374,3 +374,14 @@ Link{
 .store_picture{
   margin-bottom: 2%;
 }
+
+.delete-link {
+  margin-left: 7%;
+  color : rgb(63, 63, 63);
+  transition : color 0.2s;
+}
+
+.delete-link:hover{
+  color : black;
+  cursor: pointer; 
+}

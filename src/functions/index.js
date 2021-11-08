@@ -52,7 +52,7 @@ export const getAllStores = async (setStores) => {
 */
 export const getListings = async (email = "", setListings) => {
   const listings = await db.collection("/listings/").get();
-  setListings(listings.docs.map((doc) => doc.data()));
+  setListings(listings.docs.map((doc) => doc.data()).slice());
 };
 
 /*
@@ -65,18 +65,19 @@ export const getListings = async (email = "", setListings) => {
 export const getShelterRequests = async (email, setRequests) => {
   // access the `requests` table in our database
   const requests = await db.collection("/requests").get();
-  // convert the received response to an iterable map
-  let requests_map = requests.docs.map((doc) => doc.data());
+
   let request_array = [];
-  // iterate through the map
-  requests_map.map((request) => {
-    // push to requests_array only if the current request's shelter email is same as the shelter email in our function parameter
-    if (request.shelter_email === email) {
-      request_array.push(request);
+
+  requests.docs.map(request => {
+    const data = request.data();
+    const id = request.id;
+    if (data.shelter_email === email){
+      request_array.push({id, ...data})
     }
-  });
+  })
+  console.log("NEW REQUESTS: ", request_array); 
   // set the `requests` state variable to this our final array
-  setRequests(request_array);
+  setRequests(request_array.slice());
 };
 
 /*
@@ -87,6 +88,12 @@ export const handleNewRequest = async (request_details) => {
   // add this request to our `requests` table
   return db.collection("/requests/").add(request_details);
 };
+
+export const deleteRequest = async (request_id) => {
+  console.log(request_id);
+  return db.doc(`/requests/${request_id}/`).delete(); 
+}
+
 
 /*
   Function to handle a login request 

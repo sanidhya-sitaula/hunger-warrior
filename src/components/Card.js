@@ -8,8 +8,9 @@ import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 
 export default function MediaCard(props) {
-  const { name, store_email, available, store_name, quantity, date_posted, request_status } =
+  const { name, store_email, available, store_name, quantity, date_posted, request_status, id, handleDelete } =
     props;
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia height="140" alt="green iguana" />
@@ -28,7 +29,7 @@ export default function MediaCard(props) {
           Status: {request_status}
         </Typography>: null }
 
-        {available !== "Not Applicable" ? available ? (
+        {available !== "Not Applicable" ? available === true ? (
           <Typography variant="body2" color="green">
             Currently Available
           </Typography>
@@ -42,7 +43,7 @@ export default function MediaCard(props) {
         <Link style = {{textDecoration : "None"}}>Order</Link>
         <Link style = {{textDecoration : "None"}}>Store Profile</Link>
       </CardActions> : <CardActions>
-        <Link style = {{textDecoration : "None", textAlign : 'Center'}}>Delete</Link>
+        <a className = "delete-link" onClick = {() => handleDelete(id)} style = {{textDecoration : "None", textAlign : 'Center'}}>Delete</a>
       </CardActions>}
       
     </Card>

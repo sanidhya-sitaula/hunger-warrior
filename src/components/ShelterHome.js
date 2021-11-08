@@ -1,38 +1,50 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Grid from "@mui/material/Grid";
-import { getListings, getShelterRequests } from "../functions/index";
+import {
+  getListings,
+  getShelterRequests,
+  deleteRequest,
+} from "../functions/index";
 import MediaCard from "./Card";
 import MediaCard2 from "./Card2";
 import Footer from "./Footer";
 import { Link } from "react-router-dom";
+import useForceUpdate from "use-force-update";
 
 export let displayListings = () => {};
 
 const ShelterHome = (props) => {
   const { user, handleLogout, userDetails, stores } = props;
-
   const [listings, setListings] = useState([{}]);
-  const [requests, setRequests] = useState([{}]);
+  const [requests, setRequests] = useState([]);
+  const forceUpdate = useForceUpdate();
 
-  useEffect(() => {
-    getListings("", setListings);
-    getShelterRequests(userDetails.email, setRequests);
+  useEffect(async () => {
+    await getListings("", setListings);
+    await getShelterRequests(userDetails.email, setRequests);
   }, []);
+
+  const handleDeleteRequest = async (id) => {
+    deleteRequest(id);
+    await getShelterRequests(userDetails.email, setRequests);
+  };
 
   const displayStores = () => {
     return stores.map((store) => {
-        console.log(store);
+      console.log(store);
       return (
         <Grid item xs={6}>
-          <div className = "store_information">
-            <div className = "store_picture"><img width = '100%' height = '300'src = {store.store_image}></img></div>
-            <h2 className = "store_title">{store.store_name}</h2>
-            <p className = "store_location">{store.store_location}</p>
-            <p className = "store_phone">{store.store_phone}</p>
-            <div className = "store_information_buttons">
-                <button className = "store_information_btn">View Listings</button>
-                <button className = "store_information_btn">Store Profile</button>
+          <div className="store_information">
+            <div className="store_picture">
+              <img width="100%" height="300" src={store.store_image}></img>
+            </div>
+            <h2 className="store_title">{store.store_name}</h2>
+            <p className="store_location">{store.store_location}</p>
+            <p className="store_phone">{store.store_phone}</p>
+            <div className="store_information_buttons">
+              <button className="store_information_btn">View Listings</button>
+              <button className="store_information_btn">Store Profile</button>
             </div>
           </div>
         </Grid>
@@ -40,7 +52,9 @@ const ShelterHome = (props) => {
     });
   };
 
-  const displayRequests = (requests) => {
+  const displayRequests = () => {
+    console.log("REQUESTS: ", requests);
+
     return requests.map((request) => {
       return (
         <Grid
@@ -55,6 +69,8 @@ const ShelterHome = (props) => {
             quantity={request.item_quantity}
             request_status={request.request_status}
             available="Not Applicable"
+            id={request.id}
+            handleDelete={handleDeleteRequest}
           />
         </Grid>
       );
@@ -66,7 +82,6 @@ const ShelterHome = (props) => {
       num_items = listings.length;
     }
     return listings.slice(0, num_items).map((listing) => {
-      console.log(listing);
       return (
         <Grid
           item
@@ -127,7 +142,7 @@ const ShelterHome = (props) => {
       <div class="homepage-section">
         <h2 class="section-title">Current Requests</h2>
         <div className="current_requests">
-          {requests ? displayRequests(requests) : null}
+          {requests ? displayRequests() : null}
           <Grid item xs={3} style={{ display: "inline-flex" }}>
             <Link to="/request" style={{ textDecoration: "None" }}>
               <MediaCard2 name="Make a New Request..." icon="plus" />
@@ -138,8 +153,8 @@ const ShelterHome = (props) => {
       </div>
       <div class="homepage-section">
         <h2 class="section-title">Stores Currently Supported</h2>
-        <Grid container spacing = {2}>
-            {displayStores()}
+        <Grid container spacing={2}>
+          {displayStores()}
         </Grid>
         <div className="border" />
       </div>
