@@ -2,118 +2,214 @@ import fire from "../fire";
 
 const db = fire.firestore();
 
-/*
-  Function to get all specific user's details in our database. 
-  Parameters: 
-  1. email : User email 
-  2. setUserDetails state function. (To change/edit the `userDetails` state variable)
-*/
-export const getUserDetails = (email, setUserDetails) => {
-  // Access the `users` table in our database with this user's email
-  db.doc(`/users/${email}`)
-    .get()
-    .then((doc) =>
-      // Set received data to userDetails state variable
-      setUserDetails(doc.data())
-    );
-};
-
-/*
-    Function to get all the stores in our database. 
-    Parameters : `setStores` state function. (To change/edit the `stores` state variable)
-*/
-export const getAllStores = async (setStores) => {
-  // Access the users collection
-  const users = await db.collection("/users/").get();
-  // Convert the data received to an iterable map
-  let users_map = users.docs.map((doc) => doc.data());
-  // Select only the stores
-  let stores_only = [];
-  users_map.map((user) => {
-    if (user.type === "Store") {
-      // Push this object to the stores_only array
-      stores_only.push({ store_email: user.email,
-                         store_name: user.name,
-                         store_location : user.location, 
-                         store_phone : user.phone, 
-                         store_image : user.image
-                        });
+//1.
+export const authListener = (setUser, setLoading, setUserDetails) => {
+  fire.auth().onAuthStateChanged((user) => {
+    if (user) {
+      // set the 'user' state variable to the current user
+      setUser(user);
+      getUserDetails(user.email, setUserDetails);
+      setLoading(false);
+    } else {
+      setUser("");
+      setLoading(false);
     }
   });
-  // Set the state variable to the stores_only array
-  setStores(stores_only);
 };
 
-/*
-    Function to get all the listings in our database. 
-    Parameters : 
-    1. `email`. If email is '', set listings to listings. Else, set listings to only listings made by the user with that `email`. 
-    2. `setListings` state function. (To change/edit the `listings` state variable)
-*/
-export const getListings = async (email = "", setListings) => {
-  const listings = await db.collection("/listings/").get();
-  setListings(listings.docs.map((doc) => doc.data()).slice());
-};
-
-/*
-    Function to get all the requests made by a shelter in our database. 
-    Parameters : 
-    1. `email`: Shelter's email  
-    2. `setRequests` state function. (To change/edit the `requests` state variable)
-*/
-
-export const getShelterRequests = async (email, setRequests) => {
-  // access the `requests` table in our database
-  const requests = await db.collection("/requests").get();
-
-  let request_array = [];
-
-  requests.docs.map(request => {
-    const data = request.data();
-    const id = request.id;
-    if (data.shelter_email === email){
-      request_array.push({id, ...data})
-    }
-  })
-  console.log("NEW REQUESTS: ", request_array); 
-  // set the `requests` state variable to this our final array
-  setRequests(request_array.slice());
-};
-
-/*
-  Function to add a new request to our database. 
-  Parameters: `request_details` => an object containing all the details of the request (item name, store requested from, etc.)
-*/
-export const handleNewRequest = async (request_details) => {
-  // add this request to our `requests` table
-  return db.collection("/requests/").add(request_details);
-};
-
-export const deleteRequest = async (request_id) => {
-  console.log(request_id);
-  return db.doc(`/requests/${request_id}/`).delete(); 
-}
-
-
-/*
-  Function to handle a login request 
-  Parameters: 
-  1. email : User email 
-  2. password : User password 
-  3. setEmailError : State function to change/edit the state variable 'emailError'. Used when the email entered is invalid.
-  4. setPasswordError : State function to change/edit the state variable 'passwordError'. Used when the password entered is invalid.
-  5. setUserDetails : State function to change/edit the state variable 'userDetails'. Used when there are no errors. 
-*/
-
-export const handleLogin = (
+export const handleLogin2 = async (
   email,
   password,
   setEmailError,
   setPasswordError,
-  setUserDetails
+  setIsUser,
+  setUser
 ) => {
+  await fetch(`http://localhost:8000/login/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: email,
+      password: password,
+    }),
+  })
+    .then((resp) => resp.json())
+    .then((resp) => setUser(resp))
+    .then(setIsUser(true))
+    .then(handleLogin(email, password))
+    .catch((error) => console.log(error));
+};
+
+export const getUserDetails = (email, setUserDetails) => {
+  fetch(`http://localhost:8000/users?email=${email}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((resp) => resp.json())
+    .then((resp) => setUserDetails(resp));
+};
+
+export const getAllListings2 = (email = "", setListings) => {
+  if (!email) {
+    fetch("http://localhost:8000/listings", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((resp) => resp.json())
+      .then((resp) => setListings(resp));
+  } else {
+    fetch(`http://localhost:8000/listings?email=${email}`, {
+      method : "GET",
+      headers : {
+        "Content-Type" : "application/json",
+      },
+    })
+    .then((resp) => resp.json())
+    .then((resp) => setListings(resp))
+  }
+};
+
+export const getOrders2 = async (email, setOrders) => {
+  fetch(`http://localhost:8000/orders?email=${email}`, {
+    method : "GET",
+    headers: {
+      "Content-Type" : "application/json"
+    }
+  }).then((resp) => resp.json()).then((resp) => setOrders(resp))
+};
+
+export const getAllStores2 = async (setStores) => {
+  let results; 
+  fetch('http://localhost:8000/users', {
+    method : "GET",
+    headers : {
+      "Content-Type" : "application/json"
+    }
+  }).then((resp) => resp.json()).then(resp => setStores(resp)); 
+}
+
+export const getRequests2 = async (email, setRequests) => {
+  // access the `requests` table in our database
+  fetch(`http://localhost:8000/requests?email=${email}`, {
+    method : "GET",
+    headers : {
+      "Content-Type" : "application/json"
+    }
+  }).then((resp) => resp.json()).then(resp => setRequests(resp))
+}
+
+export const handleNewRequest2 = async (request_details) => {
+  fetch(`http://localhost:8000/requests/`, {
+    method : "POST",
+    headers : {
+      "Content-Type" : "application/json"
+    },
+    body : JSON.stringify(request_details)
+  }).then((resp) => resp.json())
+}
+
+export const getListingById2 = async (id, setListing) => {
+  fetch(`http://localhost:8000/listings?id=${id}`, {
+    method : "GET",
+    headers : {
+      "Content-Type" : "application/json"
+    },
+  }).then((resp) => resp.json()).then(resp => setListing(resp))
+}
+
+export const getRequestById2 = async (id, setRequest) => {
+  fetch(`http://localhost:8000/requests?id=${id}`, {
+    method : "GET",
+    headers : {
+      "Content-Type" : "application/json"
+    }
+  }).then((resp) => resp.json()).then(resp => setRequest(resp))
+}
+
+export const getOrder2 = async (id, setOrder) => {
+  fetch(`http://localhost:8000/orders?id=${id}`, {
+    method :  "GET",
+    headers : {
+      "Content-Type" : "application/json"
+    }
+  }).then((resp) => resp.json()).then(resp => setOrder(resp))
+}
+
+
+export const handleNewListing2 = async(listing_details) => {
+  fetch(`http://localhost:8000/listings/`, {
+    method : 'POST',
+    headers : {
+      "Content-Type" : "application/json"
+    },
+    body : JSON.stringify(listing_details)
+  }).then((resp) => resp.json())
+}
+
+export const handleNewOrder2 = async(order_details) => {
+  
+  fetch(`http://localhost:8000/orders/`, {
+    method : "POST",
+    headers : {
+      "Content-Type" : "application/json" 
+    },
+    body : JSON.stringify(order_details)
+  }).then((resp) => resp.json())
+}
+
+export const handleStatusChange2 = async (id, newStatus) => {
+  fetch(`http://localhost:8000/orders/?id=${id}`, {
+    method : "PUT",
+    headers : {
+      "Content-Type" : "application/json"
+    },
+    body : JSON.stringify(newStatus)
+  }).then((resp) => resp.json())
+}
+
+export const deleteRequest2 = async (id) => {
+  fetch(`http://localhost:8000/requests/?delete=${id}`, {
+    method : "GET",
+    headers : {
+      "Content-Type" : "application/json"
+    }
+  }).then((resp) => resp.json())
+}
+
+export const deleteListing2 = async (id) => {
+  fetch(`http://localhost:8000/listings/?delete=${id}`, {
+    method : "GET",
+    headers : {
+      "Content-Type" : "application/json"
+    }
+  }).then((resp) => resp.json())
+}
+
+export const handleRequestStatusChange2 = async (id, newStatus) => {
+  fetch(`http://localhost:8000/requests/?id=${id}`, {
+    method : "PUT",
+    headers : {
+      "Content-Type" : "application/json"
+    },
+    body : JSON.stringify(newStatus)
+  }).then((resp) => resp.json())
+}
+ 
+export const handleRequestStatusChange = async (id, newStatus) => {
+  return db.doc(`/requests/${id}`).update("request_status", newStatus);
+};
+
+
+export const handleLogin = (email, password) => {
   //clearErrors();
   //authenticate with firebase
+
   fire
     .auth()
     .signInWithEmailAndPassword(email, password)
@@ -123,16 +219,14 @@ export const handleLogin = (
         case "auth/user-disabled":
         case "auth/user-not-found":
           // in case we get these errors, set the emailError variable to the error message
-          setEmailError(err.message);
           break;
         case "auth/wrong-password":
           // same as above
-          setPasswordError(err.message);
           break;
       }
       // If success, call the `getUserDetails` function to get the user's details.
     })
-    .then(getUserDetails(email.toLowerCase(), setUserDetails));
+    .then(console.log("true"));
 };
 
 let token, userId;
@@ -187,7 +281,7 @@ export const handleSignUp = (
         type: type,
         email: email,
         userId: userId,
-        image : image,
+        image: image,
       };
       return db.doc(`/users/${email}`).set(userCredentials);
     });
@@ -209,16 +303,3 @@ export const handleLogout = () => {
     2. setLoading : State function to change/edit the 'loading' state variable. Used to display the loading icon. 
     3. setUserDetails : State function to change/edit the 'userDetails' state variable. 
   */
-export const authListener = (setUser, setLoading, setUserDetails) => {
-  fire.auth().onAuthStateChanged((user) => {
-    if (user) {
-      // set the 'user' state variable to the current user
-      getUserDetails(user.email, setUserDetails);
-      setUser(user);
-      setLoading(false);
-    } else {
-      setUser("");
-      setLoading(false);
-    }
-  });
-};

@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import {BrowserRouter as Router, Switch, Route, BrowserRouter} from 'react-router-dom'; 
 import Tax from './Tax';
 import History from './History'; 
-import ShelterHome from './ShelterHome'; 
+import ShelterHome from './Shelter/ShelterHome'; 
 import StoreHome from './StoreHome'; 
 
 export default function NavBar(props) {

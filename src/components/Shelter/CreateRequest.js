@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "./Navbar";
-import { getAllStores, handleNewRequest } from "../functions/index";
+import Navbar from "../Navbar";
+import { getAllStores, handleNewRequest, handleNewRequest2 } from "../../functions/index";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
@@ -19,23 +19,26 @@ const history = useHistory();
     setSelectedStore(e.target.value);
   };
 
+
   const handleSubmit = () => {
     const request = {
         'item_name' : itemName,
         'item_quantity' : itemQuantity, 
         'store_email' : selectedStore,
         'shelter_email' : userDetails.email,
-        'request_status' : 'Requested'
+        'shelter_name' : userDetails.name,
+        'request_status' : 'Requested', 
+        'request_date' : new Date()
     }
     
     stores.map(store => {
-        if (store.store_email === request.store_email){
-            request['store_name'] = store.store_name; 
+        if (store.email === request.store_email){
+            request['store_name'] = store.name; 
         }
     })
 
     console.log('Request: ', request);
-    handleNewRequest(request);
+    handleNewRequest2(request);
     history.push('/');
   }
 
@@ -76,14 +79,14 @@ const history = useHistory();
               style={{ width: "600px" }}
             >
               {stores.map((store) => (
-                <MenuItem key={store.store_email} value={store.store_email}>
-                  {store.store_name}
+                <MenuItem key={store.email} value={store.email}>
+                  {store.name}
                 </MenuItem>
               ))}
             </TextField>
           </li>
           <li>
-              <button onClick = {() => handleSubmit()} style = {{width : "600px", backgroundColor : "#00a1a6"}}>Request</button>
+              <button onClick = {() => handleSubmit()} style = {{width : "600px", backgroundColor : "rgb(23, 122, 135)"}}>Request</button>
           </li>
         </ul>
       </div>

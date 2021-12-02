@@ -3,7 +3,11 @@ import React, { useState, useEffect } from "react";
 import fire from "./fire";
 import Login from "./components/Login";
 import HomePage from "./components/Dashboard";
-import { getAllStores } from "./functions/index";
+import { getAllStores, getUserDetails, getAllStores2 } from "./functions/index";
+import ViewOrder from "./components/Shelter/ViewOrder"; 
+import {ViewOrder as ViewOrderForStore} from "./components/Store/ViewOrder"; 
+import Profile from './components/Store/Profile';
+import CreateListing from './components/Store/CreateNewListing'; 
 
 // backend
 import {
@@ -12,11 +16,12 @@ import {
   authListener,
   handleSignUp,
 } from "./functions/index";
-import StoreHome from "./components/StoreHome";
-import ShelterHome from "./components/ShelterHome";
+import StoreHome from "./components/Store/StoreHome";
+import ShelterHome from "./components/Shelter/ShelterHome";
 import Tax from "./components/Tax";
 import History from "./components/History";
-import CreateRequest from './components/CreateRequest'; 
+import CreateRequest from './components/Shelter/CreateRequest'; 
+import CreateNewOrder from './components/Shelter/CreateNewOrder'; 
 
 import {
   BrowserRouter as Router,
@@ -25,7 +30,10 @@ import {
   BrowserRouter,
   withRouter,
 } from "react-router-dom";
-import AllListings from "./components/Listings";
+import AllListings from "./components/AllListings";
+import AllOrders from "./components/AllOrders";
+import ViewRequest from "./components/Store/ViewRequest";
+import AllRequests  from "./components/AllRequests";
 
 // function
 const App = () => {
@@ -43,6 +51,7 @@ const App = () => {
   const [hasAccount, setHasAccount] = useState(false);
   const [stores, setStores] = useState([{}]); 
   const [loading, setLoading] = useState(true);
+  const [isUser, setIsUser] = useState(false); 
 
   // clear text inputs
   const clearInputs = () => {
@@ -59,9 +68,15 @@ const App = () => {
   //useEffect runs as soon as the page loads
   useEffect(() => {
     authListener(setUser, setLoading, setUserDetails);
-    getAllStores(setStores); 
+    getAllStores2(setStores); 
     // check if a user is already logged in so that we know which page to display
   }, []);
+
+  useEffect(() => {
+    if (isUser == true){
+      getUserDetails(email, setUserDetails)
+    }
+  }, [isUser])
 
   return (
     <div className="App">
@@ -87,14 +102,21 @@ const App = () => {
           setPasswordError={setPasswordError}
           userDetails={userDetails}
           setUserDetails={setUserDetails}
+          setIsUser = {setIsUser}
+          setUser = {setUser}
         />
       ) : userDetails.type === "Shelter" ? (
         <Router>
           <Switch>
             <Route path="/tax" component={withRouter(Tax)} />
             <Route path="/history" component={withRouter(History)} />
-            <Route path = "/request" component = {() => (<CreateRequest user = {user} userDetails = {userDetails} handleLogout = {handleLogout} stores = {stores}/>)} /> 
+            <Route exact path = "/order/:id" component = {() => <CreateNewOrder userDetails = {userDetails} handleLogout = {handleLogout} />} />
+            <Route path = "/request" component = {() => (<CreateRequest user = {user} userDetails = {userDetails} handleLogout = {handleLogout} stores = {stores} />)} />
             <Route path = "/listings" component = {withRouter(AllListings)} /> 
+            <Route path = "/allOrders" component = {() => <AllOrders userDetails = {userDetails} handleLogout = {handleLogout} role = "Shelter"/>} />
+            <Route path = "/vieworder/:id" component = {() => <ViewOrder userDetails = {userDetails} handleLogout = {handleLogout} />} />
+            <Route path = "/allRequests" component = {() => <AllRequests userDetails = {userDetails} handleLogout = {handleLogout} role = "Shelter"/>} />
+            <Route path = "/profile/:email" component = {withRouter(Profile)} />
             <Route
               exact
               path="/"
@@ -114,6 +136,7 @@ const App = () => {
           <Switch>
             <Route path="/tax" component={withRouter(Tax)} />
             <Route path="/history" component={withRouter(History)} />
+            <Route path = "/allOrders" component = {() => <AllOrders userDetails = {userDetails} handleLogout = {handleLogout} role = "Store"/>} />
             <Route
               exact
               path="/"
@@ -125,6 +148,11 @@ const App = () => {
                 />
               )}
             />
+              <Route path = "/newlisting" component = {() => <CreateListing userDetails = {userDetails} handleLogout = {handleLogout}/>} />
+              <Route path = "/vieworder/:id" component = {() => <ViewOrderForStore userDetails = {userDetails} handleLogout = {handleLogout} />} />
+              <Route path = "/viewrequest/:id" component = {() => <ViewRequest userDetails = {userDetails} handleLogout = {handleLogout} />} />
+              <Route path = "/listings"  component = {() => <AllListings store_email = {userDetails.email} handleLogout = {handleLogout}/>} />
+              <Route path = "/allRequests" component = {() => <AllRequests userDetails = {userDetails} handleLogout = {handleLogout} role = "Store"/>} />
           </Switch>
         </Router>
       )}

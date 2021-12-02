@@ -1,7 +1,7 @@
 import React from 'react'; 
 import {useState} from 'react'; 
 
-import {handleLogin, handleSignUp} from '../functions/index';
+import {handleLogin2, handleSignUp} from '../functions/index';
 
 const Login = (props) => {
 
@@ -19,7 +19,9 @@ const Login = (props) => {
     setEmailError,
     setPasswordError,
     passwordError,
-    setUserDetails
+    setUserDetails,
+    setIsUser,
+    setUser
 } = props; 
 
     return (
@@ -63,7 +65,7 @@ const Login = (props) => {
                 <div className = "btnContainer">
                     {hasAccount ? (
                         <>
-                            <button onClick = {() => handleLogin(email, password, setEmailError, setPasswordError, setUserDetails)}>Sign In</button>
+                            <button onClick = {() => handleLogin2(email, password, setEmailError, setPasswordError, setIsUser, setUser)}>Sign In</button>
                             <p>Don't have an account? <span onClick = {() => setHasAccount(!hasAccount)}>Sign Up</span></p>
                         </>
 
