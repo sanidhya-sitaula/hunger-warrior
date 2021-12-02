@@ -10,6 +10,8 @@ export default function MediaCard2(props) {
   const { name, icon, type } =
     props;
 
+
+
     const calculateHeight = () => {
       let height;
       if (type === "orders"){
@@ -25,7 +27,7 @@ export default function MediaCard2(props) {
   }
 
   return (
-    <Card sx={{ minWidth : 100, maxWidth: 345, minHeight : calculateHeight()}} style = {{marginRight : '10%'}}id = "card2">
+    <Card sx={{ minWidth : 100, maxWidth: props.width ? props.width : 345, minHeight : props.height? props.height : calculateHeight()}} style = {{marginRight : '10%'}}id = "card2">
       <CardContent>
         <Typography gutterBottom variant="h6" component="div" style = {{textAlign: 'center'}}>
           {name}

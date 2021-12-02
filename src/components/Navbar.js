@@ -23,7 +23,7 @@ const {user, handleLogout, userDetails} = props;
                 Home
             </Link> </a>
             <a><Link to = '/tax' style = {{ textDecoration : 'none'}}>
-                Taxes
+                Financials
             </Link></a>
             <a><Link to = '/history' style = {{ textDecoration : 'none'}}>
                 History

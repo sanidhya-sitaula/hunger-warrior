@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import MediaCard from "./Card";
 import MediaCard2 from "./Card2";
 
-export let displayListings = () => {};
+export let displayListings = (lis, num_items = "") => {};
 
 const Listings = (props) => {
   const { listings } = props;
@@ -18,13 +18,13 @@ const Listings = (props) => {
     return arr; 
   }
 
-  displayListings = (listings, num_items = "") => {
-    listings = formatListings(listings);
-    console.log("LISTING: ", listings);
+  displayListings = (lis, num_items = "") => {
+    lis = formatListings(lis);
+    console.log("LISTING: ", lis);
     if (num_items === "") {
-      num_items = listings.length;
+      num_items = lis.length;
     }
-    return listings.slice(0, num_items).map((listing) => {
+    return lis.slice(0, num_items).map((listing) => {
       return (
         <Grid
           item

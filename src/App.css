@@ -17,6 +17,11 @@ body{
   margin-top : 2%;
 }
 
+.store-details{
+  border : 1px solid black; 
+  height: 400;
+}
+
 .title{
   text-align: center;
   font-family : 'Lato';
@@ -567,4 +572,12 @@ Link{
     rgba(17, 124, 101, 0.9) 100%
   ) !important;
   color : white !important;
+}
+
+.MuiTableCell-root{
+  font-family: 'Lato' !important;
+}
+
+.MuiTableCell-head{
+  font-weight: bold !important;
 }
