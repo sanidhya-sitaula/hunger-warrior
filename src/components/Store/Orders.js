@@ -28,6 +28,7 @@ const Orders = (props) => {
           item
           xs={3}
           style={{ display: "inline-flex", marginRight: "10px" }}
+          key = {orders.id}
         >
           <MediaCard
             name={order.name}

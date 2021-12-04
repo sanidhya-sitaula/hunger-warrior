@@ -5,7 +5,6 @@ import {
   getAllListings2,
   getRequests2,
   getOrders2,
-  getAllShelters
 } from "../../functions/index";
 import Footer from "../Footer";
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';

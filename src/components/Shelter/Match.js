@@ -1,101 +1,151 @@
-import React, {useState, useEffect} from 'react'; 
-import {getDistance, orderByDistance} from 'geolib'; 
+import React, { useState, useEffect } from "react";
+import { getDistance } from "geolib";
 import Navbar from "../Navbar";
-import Geocode from "react-geocode";
 import { Link } from "react-router-dom";
+import Grid from "@mui/material/Grid";
+import MapContainer from "../Map";
 
 const Match = (props) => {
-    const { userDetails, stores } = props; 
+  const { userDetails, stores } = props;
 
-    const [userLocation, setUserLocation] = useState({}); 
-    const [distanceOrder, setDistanceOrder] = useState([]); 
-    const [longLatArray, setLongLatArray] = useState([]); 
-    const [mapStoreToCoord, setMapStoreToCoord] = useState([]); 
-    const [storesAccToDistance, setStoresAccToDistance] = useState([]); 
-    const [test, setTest] = useState({});
+  const [distances, setDistances] = useState([]);
 
+  const convertToMiles = (meters) => {
+    return (meters * 0.000621371).toFixed(3);
+  };
 
-    const getUserLocation = async () => {
-        await Geocode.fromAddress(userDetails.location).then((response) => {
-            const {lat, lng} = response.results[0].geometry.location;  
-            setUserLocation({latitude : lat, longitude : lng}); 
-        })
-    }
+  const sortArray = (obj) => {
+    let distances = [];
+    let result = [];
 
-    const getLongLatArray = async () => {
-        await stores.map(async (store) => {
-            await Geocode.fromAddress(store.location).then((response) => {
-                const {lat, lng} = response.results[0].geometry.location; 
-                let newArray = longLatArray; 
-                newArray.push({latitude : lat, longitude : lng})
-                setLongLatArray(newArray);
-                let newMapStoreArray = mapStoreToCoord; 
-                newMapStoreArray.push({latitude : lat, longitude : lng, store : store.name}); 
-                setMapStoreToCoord(newMapStoreArray); 
-            })
+    obj.map((store) => {
+      distances.push(store[Object.keys(store)[0]]);
+    });
+    distances.sort((a, b) => {
+      return a - b;
+    });
 
-        })
-
-        
-        let array = orderByDistance(userLocation, longLatArray);
-        setDistanceOrder(array);
-     
-
-    }
-
-
-    const sortStoresAccordingToDistance = (distanceOrder, mapStoreToCoord) => {
-        distanceOrder.map(distance => {
-            mapStoreToCoord.map(storeLocation => {
-                if (distance.longitude == storeLocation.longitude && distance.latitude == storeLocation.latitude) {
-                    let newStoreAccToDistance = storesAccToDistance; 
-                    newStoreAccToDistance.push(storeLocation);
-                    setStoresAccToDistance(newStoreAccToDistance);
-                }
-            })
-        })
-    }
-    
-    const displayStores = () => {
-        return storesAccToDistance.map(storeDetails => {
-            return stores.map(store => {
-                if (store.name == storeDetails.store) {
-                    return (
-                        <div>
-                            <h1>{store.name}</h1>
-                            <h2>{store.email}</h2>
-                        </div>
-                    )
-                }
-            })
-        })
-    }
-
-
-    useEffect(async () => {
-        await getUserLocation(); 
-    }, [])
-
-    useEffect(async () => {
-        if (userLocation){
-            await getLongLatArray();
+    distances.forEach((distance) => {
+      obj.map((object) => {
+        if (object[Object.keys(object)[0]] == distance) {
+          let newObj = {};
+          newObj[Object.keys(object)[0]] = distance;
+          result.push(newObj);
         }
-    }, [userLocation])
+      });
+    });
+    return result;
+  };
 
-   
-    useEffect(() => {
-        if (distanceOrder.length > 0) {
-            sortStoresAccordingToDistance(distanceOrder, mapStoreToCoord); 
+  const getDistances = () => {
+    let distancesArray = [];
+
+    stores.forEach((store) => {
+      let obj = {};
+
+      let userCoords = {
+        latitude: userDetails.latitude,
+        longitude: userDetails.longitude,
+      };
+
+      let storeCoords = {
+        latitude: store.latitude,
+        longitude: store.longitude,
+      };
+
+      let distance = getDistance(userCoords, storeCoords, 1);
+
+      obj[store.name] = distance;
+      distancesArray.push(obj);
+    });
+
+    distancesArray = sortArray(distancesArray);
+    setDistances(distancesArray);
+  };
+
+  const displayStores = (distances) => {
+    return distances.map((distance_to_store) => {
+      return stores.map((store) => {
+        if (store.name == Object.keys(distance_to_store)[0]) {
+          let profileLink = `/profile/${store.email}`;
+          let listingsLink = `${profileLink}#listings-from-store`;
+
+          return (
+            <Grid container spacing={8}>
+              <Grid item xs={7.5}>
+                <div
+                  className="store_information"
+                  style={{ margin: "2% 0", width: "100%" }}
+                >
+                  <div className="store_picture">
+                    <img width="100%" height="300" src={store.image}></img>
+                  </div>
+                  <h2 className="store_title">{store.name}</h2>
+                  <h3 className="store_title">
+                    Distance :{" "}
+                    <span style={{ fontWeight: "bold" }}>
+                      {convertToMiles(
+                        distance_to_store[Object.keys(distance_to_store)[0]]
+                      )}{" "}
+                      miles
+                    </span>
+                  </h3>
+                  <p className="store_location">{store.location}</p>
+                  <p className="store_phone">{store.phone}</p>
+                  <div className="store_information_buttons">
+                    <Link className="store_links_1" to={listingsLink}>
+                      View Listings
+                    </Link>
+                    <Link className="store_links_2" to={profileLink}>
+                      Store Profile
+                    </Link>
+                  </div>
+                </div>
+              </Grid>
+
+              <Grid item xs={4.5}>
+                <div style={{ margin: "2% 0" }}>
+                  <MapContainer
+                    height="600px"
+                    shelterName={userDetails.name}
+                    storeName={store.name}
+                    latlng1={{
+                      latitude: userDetails.latitude,
+                      longitude: userDetails.longitude,
+                    }}
+                    latlng2={{
+                      latitude: store.latitude,
+                      longitude: store.longitude,
+                    }}
+                  />
+                </div>
+              </Grid>
+            </Grid>
+          );
         }
-    }, [distanceOrder])
+      });
+    });
+  };
 
-    return (
-        <div className = "hero">
-            <Navbar />
-            <h1 className="section-title" style = {{marginBottom: '2%'}}>Find a Match</h1>
-            {displayStores()}
-        </div>
-    )
-}
+  useEffect(() => {
+    getDistances();
+  }, []);
 
-export default Match; 
+  return (
+    <div className="hero">
+      <Navbar />
+      <h1 className="section-title" style={{ marginBottom: "2%" }}>
+        Find a Match
+      </h1>
+      <h2
+        className="section-title"
+        style={{ textAlign: "center", marginBottom: "2%" }}
+      >
+        Here is a list of the best matches according to your location:
+      </h2>
+      {distances ? displayStores(distances) : null}
+    </div>
+  );
+};
+
+export default Match;

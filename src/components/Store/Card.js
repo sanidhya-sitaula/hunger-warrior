@@ -35,7 +35,6 @@ export default function MediaCard(props) {
             </Typography>: null}
             {type === "order" && date_posted ? <Typography variant="body2" color="text-secondary" style = {{marginBottom : '3%'}}>
               Order Date: {date_posted.slice(0,10)}
-              {console.log(date_posted)}
             </Typography>: null}
             
             {type === "request" && request_date ? <Typography variant="body2" color="text-secondary" style = {{marginBottom : '3%'}}>
@@ -90,7 +89,6 @@ export default function MediaCard(props) {
           </Typography>: null}
           {type === "order" && date_posted ? <Typography variant="body2" color="text-secondary" style = {{marginBottom : '3%'}}>
             Order Date: {new Date(date_posted.seconds * 1000).toString().slice(0, 15)}
-            {console.log(date_posted)}
           </Typography>: null}
           
           {type === "request" && request_date ? <Typography variant="body2" color="text-secondary" style = {{marginBottom : '3%'}}>

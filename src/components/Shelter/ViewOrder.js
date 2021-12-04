@@ -17,7 +17,6 @@ const ViewOrder = (props) => {
     await getOrder2(id, setOrder);
   }, []);
 
-  console.log(order);
 
   useEffect(async () => {
     if (order){
@@ -26,7 +25,6 @@ const ViewOrder = (props) => {
     }
   }, [order]);
 
-  console.log(store);
 
   const calculateProgress = () => {
     if (order) {
@@ -51,12 +49,11 @@ const ViewOrder = (props) => {
         {store.location && order ? (
 
           <MapContainer
-            address={userDetails.location}
-            address2={store.location}
+            latlng1 = {{'latitude' : userDetails.latitude, 'longitude' : userDetails.longitude}}
+            latlng2 = {{'latitude' : store.latitude, 'longitude' : store.longitude}}
             storeName={store.name}
             shelterName={userDetails.name}
             onClick={() => {
-              console.log("clickled");
             }}
           />
         ) : (

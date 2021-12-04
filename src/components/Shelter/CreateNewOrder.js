@@ -20,7 +20,6 @@ const CreateNewOrder = (props) => {
     await getListingById2(id, setListing);
   }, []);
 
-
   useEffect(async () => {
     if (listing) {
       await getUserDetails(listing.store_email, setStore);
@@ -31,18 +30,17 @@ const CreateNewOrder = (props) => {
     const order_details = {
       listing_id: id,
       ordered_by: userDetails.email,
-      shelter_name : userDetails.name,
+      shelter_name: userDetails.name,
       ordered_date: new Date(),
       order_status: "Order Sent",
-      deliverer_name : "",
-      deliverer_phone : "", 
+      deliverer_name: "",
+      deliverer_phone: "",
       ...listing,
     };
-    
+
     handleNewOrder2(order_details);
     history.push("/");
   };
-
 
   // AIzaSyAQGsvrhfxDeNrqgubmm4G9xC1sBpS5xSg
   return (
@@ -54,9 +52,11 @@ const CreateNewOrder = (props) => {
         style={{ display: "block", width: "100%", margin: "2% auto" }}
       >
         <div className="map" style={{ margin: "0 auto" }}>
-          {console.log("Location HERE: ", store ? store.location : "not yet")}
-          {store && store.location ? (
-            <MapContainer address={store.location} storeName={store.name} />
+          {store && store.latitude && store.longitude ? (
+            <MapContainer
+              latlng1={{ latitude: store.latitude, longitude: store.longitude }}
+              storeName={store.name}
+            />
           ) : (
             "Loading..."
           )}

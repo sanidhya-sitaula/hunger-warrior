@@ -10,7 +10,7 @@ const Requests = (props) => {
   const { requests, handleDeleteRequest } = props;
 
   displayRequests = (req, num_items="") => {
-    if (num_items == ""){
+    if (num_items === ""){
       num_items = req.length
     }
 
@@ -21,6 +21,7 @@ const Requests = (props) => {
           item
           xs={3}
           style={{ display: "inline-flex", marginRight: "10px" }}
+          key = {request.id}
         >
         <Link className = "orderLink" to = {requestLink}>
             <MediaCard

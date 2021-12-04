@@ -26,7 +26,7 @@ export default function BasicTable(props) {
         </TableHead>
         <TableBody>
           
-          {usedIn == "Listings" ? rows.map((row) => {
+          {usedIn === "Listings" ? rows.map((row) => {
               
             orderLink = `/order/${row.id}`; 
             return (<TableRow
@@ -44,7 +44,7 @@ export default function BasicTable(props) {
             )
           }) : 
 
-          usedIn == "Orders" ? 
+          usedIn === "Orders" ? 
 
           rows.map((row) => {
 
@@ -80,7 +80,7 @@ export default function BasicTable(props) {
                         </TableCell>
                         <TableCell align="right">${row.item_value}</TableCell>
                         <TableCell align="right">
-                            {usedIn == "Store Financials" ? 
+                            {usedIn === "Store Financials" ? 
                             row.shelter_name : <Link  style = {{textDecoration : 'None',color : '#07646b'}} to = {storeProfileLink} target="_blank" rel="noopener noreferrer">
                             {row.store_name}
                         </Link>  
@@ -97,13 +97,13 @@ export default function BasicTable(props) {
 
         }
 
-            {usedIn == "Financials" || usedIn == "Store Financials" ? 
+            {usedIn === "Financials" || usedIn === "Store Financials" ? 
             <TableRow
             key = "total"
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
           >
           <TableCell align = "left">
-              <span style = {{fontWeight : 'bold'}}>Total Donation Value {usedIn == "Financials" ? "Received" : "Dispatched"}</span>
+              <span style = {{fontWeight : 'bold'}}>Total Donation Value {usedIn === "Financials" ? "Received" : "Dispatched"}</span>
           </TableCell>
           <TableCell align = "right">
           <span style = {{fontWeight : 'bold'}}>${totalValue}</span>

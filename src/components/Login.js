@@ -11,6 +11,8 @@ const Login = (props) => {
     const [image, setImage] = useState(''); 
     const [type, setType] = useState(''); 
 
+    const [signUpStatus, setSignUpStatus] = useState(false); 
+
     const {email, setEmail, password, 
     setPassword,
     hasAccount ,
@@ -71,7 +73,8 @@ const Login = (props) => {
 
                     ): (
                         <>
-                            <button onClick = {() => handleSignUp(name, location, phone, type, email, image, password, setEmailError, setPasswordError, setUserDetails, setIsUser, setUser)}>Sign up</button>
+                            <button onClick = {() => handleSignUp(name, location, phone, type, email, image, password, setEmailError, setPasswordError, setSignUpStatus)}>Sign up</button>
+                            {signUpStatus ? <h4 style = {{color : 'white', margin: '2% auto', textAlign: 'center'}}>You have signed up successfully. Please login.</h4> : null}
                             <p>Have an account? <span onClick = {() => setHasAccount(!hasAccount)}>Sign In</span></p>
                         </>
                     )}

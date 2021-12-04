@@ -74,8 +74,7 @@ export default function MediaCard(props) {
                 color="text-secondary"
                 style={{ marginBottom: "3%" }}
               >
-                Order Date:{" "}
-                {date_posted.slice(0,10)}
+                Order Date: {date_posted.slice(0, 10)}
               </Typography>
             ) : null}
 

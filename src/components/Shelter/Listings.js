@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
 import MediaCard from "./Card";
@@ -10,17 +10,16 @@ const Listings = (props) => {
   const { listings } = props;
 
   const formatListings = (listings) => {
-    let arr = []; 
+    let arr = [];
     for (const [key, value] of Object.entries(listings)) {
-      arr.push(value)
+      arr.push(value);
     }
 
-    return arr; 
-  }
+    return arr;
+  };
 
   displayListings = (lis, num_items = "") => {
     lis = formatListings(lis);
-    console.log("LISTING: ", lis);
     if (num_items === "") {
       num_items = lis.length;
     }
@@ -59,7 +58,11 @@ const Listings = (props) => {
               style={{ display: "inline-flex", marginLeft: "10px" }}
             >
               <Link to="/listings" style={{ textDecoration: "None" }}>
-                <MediaCard2 name="See All Listings..." icon="view_all" type = "listings" />
+                <MediaCard2
+                  name="See All Listings..."
+                  icon="view_all"
+                  type="listings"
+                />
               </Link>
             </Grid>
           </div>

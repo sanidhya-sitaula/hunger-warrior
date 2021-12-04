@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'; 
 import { displayListings } from './Shelter/Listings'; 
 import {displayListings as displayListingsForStore } from './Store/Listings'; 
-import { getAllListings2, getShelterRequests } from "../functions/index";
+import { getAllListings2 } from "../functions/index";
 import Navbar from "./Navbar";
 
 

@@ -74,12 +74,11 @@ export const ViewOrder = (props) => {
       <div className="map-view-order">
         {shelter.location && order ? (
           <MapContainer
-            address={userDetails.location}
-            address2={shelter.location}
+            latlng1 = {{'latitude' : userDetails.latitude, 'longitude' : userDetails.longitude}}
+            latlng2 = {{'latitude' : shelter.latitude, 'longitude' : shelter.longitude}}
             storeName={order.store_name}
             shelterName={shelter.name}
             onClick={() => {
-              console.log("clickled");
             }}
           />
         ) : (
@@ -146,11 +145,11 @@ export const ViewOrder = (props) => {
         <Grid item xs = {5}>
 
 
-          <div className = "store_information" style = {{margin : '6% auto'}}>
+          <div className = "store_information" style = {{margin : '3% auto'}}>
 
             {order.deliverer_name && order.deliverer_phone ?
             <> 
-            <div className = "icon-pic"><img src = "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png" height = '230px' /></div>
+            <div className = "icon-pic"><img src = "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png" height = '220px' /></div>
             <h2 className = "">Delivery By:</h2>
             <h4 className = "">{order.deliverer_name ? order.deliverer_name : 'TBD'}</h4>
             <h4 className = "">Contact : {order.deliverer_name ? order.deliverer_phone : 'TBD'}</h4>

@@ -26,7 +26,7 @@ export const handleLogin2 = async (
   setIsUser,
   setUser
 ) => {
-  await fetch(`http://localhost:8000/login/`, {
+  await fetch(`https://hungerwarriorapi.herokuapp.com/login/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -86,7 +86,7 @@ export const getOrders2 = async (email, setOrders) => {
 };
 
 export const getAllStores2 = async (setStores) => {
-  fetch('http://localhost:8000/users?role=Store', {
+  fetch('https://hungerwarriorapi.herokuapp.com/users?role=Store', {
     method : "GET",
     headers : {
       "Content-Type" : "application/json"
@@ -95,7 +95,7 @@ export const getAllStores2 = async (setStores) => {
 }
 
 export const getAllShelters = async (setShelters) => {
-  fetch('http://localhost:8000/users?role=Shelter', {
+  fetch('https://hungerwarriorapi.herokuapp.com/users?role=Shelter', {
     method : "GET",
     headers : {
       "Content-Type" : "application/json"
@@ -104,7 +104,7 @@ export const getAllShelters = async (setShelters) => {
 }
 
 export const getTotalValue = async (email, setTotalValue) => {
-  fetch(`http://localhost:8000/totalValue?email=${email}`,{
+  fetch(`https://hungerwarriorapi.herokuapp.com/totalValue?email=${email}`,{
     method : "GET", 
     headers : {
       "Content-Type" : "application/json"
@@ -123,7 +123,7 @@ export const getRequests2 = async (email, setRequests) => {
 }
 
 export const handleNewRequest2 = async (request_details) => {
-  fetch(`http://localhost:8000/requests/`, {
+  fetch(`https://hungerwarriorapi.herokuapp.com/requests/`, {
     method : "POST",
     headers : {
       "Content-Type" : "application/json"
@@ -133,7 +133,7 @@ export const handleNewRequest2 = async (request_details) => {
 }
 
 export const getListingById2 = async (id, setListing) => {
-  fetch(`http://localhost:8000/listings?id=${id}`, {
+  fetch(`https://hungerwarriorapi.herokuapp.com/listings?id=${id}`, {
     method : "GET",
     headers : {
       "Content-Type" : "application/json"
@@ -142,7 +142,7 @@ export const getListingById2 = async (id, setListing) => {
 }
 
 export const getRequestById2 = async (id, setRequest) => {
-  fetch(`http://localhost:8000/requests?id=${id}`, {
+  fetch(`https://hungerwarriorapi.herokuapp.com/requests?id=${id}`, {
     method : "GET",
     headers : {
       "Content-Type" : "application/json"
@@ -151,7 +151,7 @@ export const getRequestById2 = async (id, setRequest) => {
 }
 
 export const getOrder2 = async (id, setOrder) => {
-  fetch(`http://localhost:8000/orders?id=${id}`, {
+  fetch(`https://hungerwarriorapi.herokuapp.com/orders?id=${id}`, {
     method :  "GET",
     headers : {
       "Content-Type" : "application/json"
@@ -161,7 +161,7 @@ export const getOrder2 = async (id, setOrder) => {
 
 
 export const handleNewListing2 = async(listing_details) => {
-  fetch(`http://localhost:8000/listings/`, {
+  fetch(`https://hungerwarriorapi.herokuapp.com/listings/`, {
     method : 'POST',
     headers : {
       "Content-Type" : "application/json"
@@ -172,7 +172,7 @@ export const handleNewListing2 = async(listing_details) => {
 
 export const handleNewOrder2 = async(order_details) => {
   
-  fetch(`http://localhost:8000/orders/`, {
+  fetch(`https://hungerwarriorapi.herokuapp.com/orders/`, {
     method : "POST",
     headers : {
       "Content-Type" : "application/json" 
@@ -182,7 +182,7 @@ export const handleNewOrder2 = async(order_details) => {
 }
 
 export const handleStatusChange2 = async (id, newStatus) => {
-  fetch(`http://localhost:8000/orders/?id=${id}`, {
+  fetch(`https://hungerwarriorapi.herokuapp.com/orders/?id=${id}`, {
     method : "PUT",
     headers : {
       "Content-Type" : "application/json"
@@ -192,7 +192,7 @@ export const handleStatusChange2 = async (id, newStatus) => {
 }
 
 export const handleDelivererStatusChange = async (id, name, phone) => {
-  fetch(`http://localhost:8000/orders/?id=${id}&deliverer=True/`, {
+  fetch(`https://hungerwarriorapi.herokuapp.com/orders/?id=${id}&deliverer=True/`, {
     method : "PUT",
     headers : {
       "Content-Type" : "application/json"
@@ -205,7 +205,7 @@ export const handleDelivererStatusChange = async (id, name, phone) => {
 }
 
 export const deleteRequest2 = async (id) => {
-  fetch(`http://localhost:8000/requests/?delete=${id}`, {
+  fetch(`https://hungerwarriorapi.herokuapp.com/requests/?delete=${id}`, {
     method : "GET",
     headers : {
       "Content-Type" : "application/json"
@@ -214,7 +214,7 @@ export const deleteRequest2 = async (id) => {
 }
 
 export const deleteListing2 = async (id) => {
-  fetch(`http://localhost:8000/listings/?delete=${id}`, {
+  fetch(`https://hungerwarriorapi.herokuapp.com/listings/?delete=${id}`, {
     method : "GET",
     headers : {
       "Content-Type" : "application/json"
@@ -223,7 +223,7 @@ export const deleteListing2 = async (id) => {
 }
 
 export const handleRequestStatusChange2 = async (id, newStatus) => {
-  fetch(`http://localhost:8000/requests/?id=${id}`, {
+  fetch(`https://hungerwarriorapi.herokuapp.com/requests/?id=${id}`, {
     method : "PUT",
     headers : {
       "Content-Type" : "application/json"
@@ -232,10 +232,6 @@ export const handleRequestStatusChange2 = async (id, newStatus) => {
   }).then((resp) => resp.json())
 }
  
-export const handleRequestStatusChange = async (id, newStatus) => {
-  return db.doc(`/requests/${id}`).update("request_status", newStatus);
-};
-
 
 export const handleLogin = (email, password) => {
   //clearErrors();
@@ -272,8 +268,7 @@ export const handleSignUp = async (
   password,
   setEmailError,
   setPasswordError,
-  setIsUser,
-  setUser
+  setSignUpStatus
 ) => {
   // authenticate with fireabase
 
@@ -303,7 +298,7 @@ export const handleSignUp = async (
     longitude : latlng.longitude
   }
 
-  await fetch(`http://localhost:8000/signup/`, {
+  await fetch(`https://hungerwarriorapi.herokuapp.com/signup/`, {
     method : "POST",
     headers : {
       "Content-Type" : "application/json"
@@ -314,18 +309,14 @@ export const handleSignUp = async (
     })
   })
   .then(
-    fetch('http://localhost:8000/users/',{
+    fetch('https://hungerwarriorapi.herokuapp.com/users/',{
       method : 'POST',
       headers : {
         "Content-Type" : "application/json"
       },
       body : JSON.stringify(userCredentials)
-    }))
-  .then(handleLogin2(email, password, setEmailError,
-    setPasswordError,
-    setIsUser,
-    setUser))
-};
+    })).then(setSignUpStatus(true))
+  };
 
 /*
     Function to handle user logout. 

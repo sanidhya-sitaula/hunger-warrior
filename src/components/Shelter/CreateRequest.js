@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Navbar from "../Navbar";
-import { getAllStores, handleNewRequest, handleNewRequest2 } from "../../functions/index";
+import {
+  handleNewRequest2,
+} from "../../functions/index";
 import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
-import { useHistory } from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 
 const CreateRequest = (props) => {
-const history = useHistory();
+  const history = useHistory();
 
-  const [selectedStore, setSelectedStore] = useState('');
-  const [itemName, setItemName] = useState('');
-  const [itemQuantity, setItemQuantity] = useState('');
+  const [selectedStore, setSelectedStore] = useState("");
+  const [itemName, setItemName] = useState("");
+  const [itemQuantity, setItemQuantity] = useState("");
+  const [itemValue, setItemValue] = useState("");
 
   const { handleLogout, userDetails, stores } = props;
 
@@ -19,28 +21,27 @@ const history = useHistory();
     setSelectedStore(e.target.value);
   };
 
-
   const handleSubmit = () => {
     const request = {
-        'item_name' : itemName,
-        'item_quantity' : itemQuantity, 
-        'store_email' : selectedStore,
-        'shelter_email' : userDetails.email,
-        'shelter_name' : userDetails.name,
-        'request_status' : 'Requested', 
-        'request_date' : new Date()
-    }
-    
-    stores.map(store => {
-        if (store.email === request.store_email){
-            request['store_name'] = store.name; 
-        }
-    })
+      item_name: itemName,
+      item_quantity: itemQuantity,
+      store_email: selectedStore,
+      shelter_email: userDetails.email,
+      shelter_name: userDetails.name,
+      item_value: parseFloat(itemValue),
+      request_status: "Requested",
+      request_date: new Date(),
+    };
 
-    console.log('Request: ', request);
+    stores.map((store) => {
+      if (store.email === request.store_email) {
+        request["store_name"] = store.name;
+      }
+    });
+
     handleNewRequest2(request);
-    history.push('/');
-  }
+    history.push("/");
+  };
 
   return (
     <div className="hero">
@@ -55,7 +56,7 @@ const history = useHistory();
               label="Item Name"
               defaultValue=""
               style={{ width: "600px" }}
-              onChange = {(e) => setItemName(e.target.value)}
+              onChange={(e) => setItemName(e.target.value)}
             />
           </li>
           <li>
@@ -65,7 +66,7 @@ const history = useHistory();
               label="Quantity"
               defaultValue=""
               style={{ width: "600px" }}
-              onChange = {(e) => setItemQuantity(e.target.value)}
+              onChange={(e) => setItemQuantity(e.target.value)}
             />
           </li>
           <li>
@@ -86,7 +87,27 @@ const history = useHistory();
             </TextField>
           </li>
           <li>
-              <button onClick = {() => handleSubmit()} style = {{width : "600px", backgroundColor : "rgb(23, 122, 135)"}}>Request</button>
+            <TextField
+              required
+              id="outlined-required"
+              label="Value in Dollars"
+              defaultValue=""
+              style={{ width: "600px" }}
+              onChange={(e) => setItemValue(e.target.value)}
+            />
+            <p style={{ textAlign: "center", margin: "2% auto" }}>
+              *You need to mention the dollar value of the item before accepting
+              just in order for it to register it for your Financial History.
+              The item is still considered donated for free.
+            </p>
+          </li>
+          <li>
+            <button
+              onClick={() => handleSubmit()}
+              style={{ width: "600px", backgroundColor: "rgb(23, 122, 135)" }}
+            >
+              Request
+            </button>
           </li>
         </ul>
       </div>
