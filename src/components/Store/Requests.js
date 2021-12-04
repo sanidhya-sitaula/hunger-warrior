@@ -13,7 +13,7 @@ const Requests = (props) => {
     if (num_items == ""){
       num_items = req.length
     }
-    console.log('Requests for store:', req);
+
     return requests.slice(0, num_items).map((request) => {
      const requestLink = `/viewrequest/${request.id}`;
       return (

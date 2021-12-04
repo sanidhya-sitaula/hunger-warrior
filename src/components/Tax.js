@@ -1,11 +1,14 @@
-import React from 'react'; 
+import React, {useState, useEffect} from 'react'; 
 import Navbar from './Navbar';
 
+
 const Tax = () => {
-    return (<div className = "hero">
+    return (
+    <div className = "hero">
         <Navbar />
-        <h1>TAX</h1>
-        </div>)
+        <h2 class="section-title">Your Financials</h2>
+        </div>
+        )
 }
 
 export default Tax;

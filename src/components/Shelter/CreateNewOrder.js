@@ -34,6 +34,8 @@ const CreateNewOrder = (props) => {
       shelter_name : userDetails.name,
       ordered_date: new Date(),
       order_status: "Order Sent",
+      deliverer_name : "",
+      deliverer_phone : "", 
       ...listing,
     };
     

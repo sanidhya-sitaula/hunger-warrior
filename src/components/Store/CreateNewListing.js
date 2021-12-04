@@ -8,7 +8,7 @@ const CreateListing = (props) => {
   const history = useHistory();
   const [itemName, setItemName] = useState("");
   const [itemQuantity, setItemQuantity] = useState("");
-
+  const [itemValue, setItemValue] = useState(); 
   const { handleLogout, userDetails } = props;
 
   const handleSubmit = () => {
@@ -19,6 +19,7 @@ const CreateListing = (props) => {
       store_email: userDetails.email,
       store_name: userDetails.name,
       date: new Date(),
+      item_value : parseFloat(itemValue)
     };
 
     handleNewListing2(listing);
@@ -50,6 +51,16 @@ const CreateListing = (props) => {
               defaultValue=""
               style={{ width: "600px" }}
               onChange={(e) => setItemQuantity(e.target.value)}
+            />
+          </li>
+          <li>
+            <TextField
+              required
+              id="outlined-required"
+              label="Value in Dollars"
+              defaultValue=""
+              style={{ width: "600px" }}
+              onChange={(e) => setItemValue(e.target.value)}
             />
           </li>
           <li>

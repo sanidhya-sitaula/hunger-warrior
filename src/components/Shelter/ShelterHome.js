@@ -12,6 +12,8 @@ import Listings from "./Listings";
 import Requests from "./Requests";
 import Orders from "./Orders";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
+import { Link } from 'react-router-dom'; 
+
 
 export let displayListings = () => {};
 
@@ -54,6 +56,15 @@ const ShelterHome = (props) => {
       <Orders orders={orders} />
       <Listings listings={listings} />
       <Requests requests={requests} handleDeleteRequest={handleDeleteRequest} />
+      <div className = "match">
+        <p className = "match-description">Our match algorithm matches you with stores that are the closest and can deliver the fastest to you.</p>
+  
+          <a className = "match-link" style = {{color: 'white'}}><Link to = '/match' style = {{ color : 'white', textDecoration : 'none'}} target="_blank" rel="noopener noreferrer">
+                    Match With a Store
+                </Link></a>
+  
+     
+        </div>
       <SupportedStores stores={stores} />
       <Footer />
     </div>

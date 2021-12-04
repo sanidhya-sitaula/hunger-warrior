@@ -60,9 +60,27 @@ class OrderViewSet(viewsets.ViewSet):
 
     def put(self, request):
         key = request.GET.get('id')
-        db.child("orders").child(key).update({"order_status" : request.data})
+        deliverer = request.GET.get('deliverer'); 
+        if not deliverer:
+            db.child("orders").child(key).update({"order_status" : request.data})
+        else:
+            db.child("orders").child(key).update({"deliverer_name" : request.data['name'], "deliverer_phone" : request.data['phone']})
+        
         return Response(status = status.HTTP_200_OK)
 
+class TotalValueViewSet(viewsets.ViewSet):
+    def list(self, request):
+        email = request.GET.get('email') 
+        
+        orders = db.child("orders").get()
+
+        totalVal = 0 
+
+        for order in orders.each():
+            if order.val()['ordered_by'] == email or order.val()['store_email'] == email:
+                totalVal += order.val()['item_value']        
+
+        return Response(totalVal, status = status.HTTP_200_OK)
 
 class ListingViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -145,8 +163,6 @@ class LoginViewSet(viewsets.ViewSet):
     def create(self, request):
         email = request.data['email']
         password = request.data['password']
-        print('email: ' , email)
-        print('password: ', password)
         try:
             user = auth.sign_in_with_email_and_password(email, password)
             return Response(user, status = status.HTTP_200_OK)
@@ -154,10 +170,21 @@ class LoginViewSet(viewsets.ViewSet):
             return Response(status = status.HTTP_404_NOT_FOUND)
 
 
+class SignUpViewSet(viewsets.ViewSet):
+    def create(self, request):
+        email = request.data['email']
+        password = request.data['password']
+        try:
+            user = auth.create_user_with_email_and_password(email, password)
+            return Response(user, status = status.HTTP_200_OK)
+        except:
+            return Response(status = status.HTTP_400_BAD_REQUEST)
+
 class UsersViewSet(viewsets.ViewSet):
     def list(self, request):
         email = request.GET.get('email')
         users = db.child("users").get()
+        role = request.GET.get('role')
         stores_array = []
         if email:
             for user in users.each():
@@ -167,11 +194,12 @@ class UsersViewSet(viewsets.ViewSet):
             return Response(status = status.HTTP_400_BAD_REQUEST)
         else:
             for user in users.each():
-                if user.val()['type'] == 'Store':
+                if user.val()['type'] == role:
                     user.val()['id'] = user.key()
                     stores_array.append(user.val())
+            
             return Response(stores_array, status = status.HTTP_200_OK)
 
     def create(self, request):
         db.child('users').push(request.data) 
-
+        return Response(status = status.HTTP_200_OK)

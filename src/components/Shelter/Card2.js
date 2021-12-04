@@ -15,13 +15,13 @@ export default function MediaCard2(props) {
     const calculateHeight = () => {
       let height;
       if (type === "orders"){
-          height = 210;
+          height = 204;
       }
       else if (type === "listings"){
           height = 204;
       }
       else {
-          height = 250;
+          height = 245;
       }
       return height; 
   }

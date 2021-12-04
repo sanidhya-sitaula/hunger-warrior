@@ -46,6 +46,43 @@ button:hover{
   background : #0a8b94;
 }
 
+.match{
+  margin: 3% auto;
+}
+
+.match-description{
+  margin-top: 5%;
+  text-align: center;
+  font-size: large;
+  letter-spacing: 0.07em;
+}
+
+.match-link{
+  font-size: large;
+  padding: 20px; 
+  border: 1px solid #07646b;
+  background : #07646b;
+  color : white !important;
+  display: block;
+  box-sizing: border-box;
+  width : 30%;
+  margin : 2% auto;
+  text-align: center;
+  text-decoration: none;
+}
+
+.match-link:hover{
+  cursor: pointer;
+
+}
+
+.deliverer-details{
+  text-align: center;
+  border: 1px solid black; 
+  height : 150px;
+
+}
+
 .login {
   width: 100%;
   min-height: 100vh;
@@ -375,17 +412,20 @@ Link{
   padding: 20px;
   background: radial-gradient(
     ellipse at left bottom,
-    rgb(236, 237, 237) 0%,
-    rgba(255, 255, 255, 0.9) 59%,
+    rgb(249, 249, 249) 0%,
+    rgba(255, 254, 254, 0.9) 59%,
     rgba(255, 255, 255, 0.9) 100%
   );
   box-shadow: 0 30px 70px -65px rgba(0, 0, 0, 0.8);
+  text-align: center;
 }
 
 .store_location{
   margin-top: 1%;
   margin-bottom: 1%;
 }
+
+
 
 .store_phone{
   margin-bottom: 2%;
@@ -400,6 +440,7 @@ Link{
   margin: 0 auto; 
   width : 100%;
   margin-bottom: 4%;
+  border-radius: 10px;
 }
 
 .store_information_btn{

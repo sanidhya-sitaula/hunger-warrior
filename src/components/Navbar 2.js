@@ -22,9 +22,11 @@ const {user, handleLogout, userDetails} = props;
                 <a><Link to = '/' style = {{ textDecoration : 'none'}}>
                 Home
             </Link> </a>
-           
-            <a><Link to = '/financials' style = {{ textDecoration : 'none'}}>
+            <a><Link to = '/tax' style = {{ textDecoration : 'none'}}>
                 Financials
+            </Link></a>
+            <a><Link to = '/history' style = {{ textDecoration : 'none'}}>
+                History
             </Link></a>
             <a color="inherit" onClick = {handleLogout}>Logout</a>
             </nav>

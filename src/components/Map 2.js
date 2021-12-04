@@ -23,7 +23,7 @@ class MapContainer extends React.Component {
   };
 
   mapStyles = {
-    height: this.props.height ? this.props.height : "500px",
+    height: "500px",
     width: this.props.width ? this.props.width : "100%",
   };
 
@@ -33,26 +33,17 @@ class MapContainer extends React.Component {
   };
 
   componentDidMount() {
+    Geocode.fromAddress(this.props.address).then((response) => {
+      const { lat, lng } = response.results[0].geometry.location;
+      this.setState({ lat: lat, lng: lng, loading: false });
+    });
 
-    if(this.props.latlng1) {
-      this.setState({lat : this.props.latlng1.latitude, lng : this.props.latlng1.longitude, loading : false}); 
-      if(this.props.latlng2) {
-        this.setState({lat2 : this.props.latlng2.latitude, lng2 : this.props.latlng2.longitude, loading: false}); 
-      }
-    }
-    else {
-      Geocode.fromAddress(this.props.address).then((response) => {
+    if (this.props.address2) {
+      this.setState({ loading: true });
+      Geocode.fromAddress(this.props.address2).then((response) => {
         const { lat, lng } = response.results[0].geometry.location;
-        this.setState({ lat: lat, lng: lng, loading: false });
+        this.setState({ lat2: lat, lng2: lng, loading: false });
       });
-  
-      if (this.props.address2) {
-        this.setState({ loading: true });
-        Geocode.fromAddress(this.props.address2).then((response) => {
-          const { lat, lng } = response.results[0].geometry.location;
-          this.setState({ lat2: lat, lng2: lng, loading: false });
-        });
-      }
     }
   }
 
@@ -83,9 +74,7 @@ class MapContainer extends React.Component {
               </InfoWindow>
             ) : null}
           </Marker>
-
-
-          {this.props.address2 || this.props.latlng2 ? (
+          {this.props.address2 ? (
             <Marker
               position={{ lat: this.state.lat2, lng: this.state.lng2 }}
               onClick={() => this.setState({ isOpen: !this.state.isOpen })}

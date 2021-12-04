@@ -16,6 +16,8 @@ const Profile = (props) => {
     const [listings, setListings] = useState({})
     const [orders, setOrders] = useState({}) 
 
+
+
     const formatListings = (listings) => {
         let arr = []; 
         for (const [key, value] of Object.entries(listings)) {
@@ -40,6 +42,10 @@ const Profile = (props) => {
 
     useEffect(async () => {
         await getUserDetails(email, setStoreDetails);
+    }, [])
+
+    useEffect(async () => {
+        
         if (storeDetails){
             await getAllListings2(storeDetails.email, setListings)
         }
@@ -47,7 +53,6 @@ const Profile = (props) => {
             await getOrders2(userDetails.email, setOrders)
         }
     }, [storeDetails])
-
     
     return (
         <div className = "hero">
@@ -74,8 +79,8 @@ const Profile = (props) => {
               </Grid>
               <Grid container spacing = {8} style = {{marginBottom: '2.5%'}}>
                   <Grid item xs = {9}>
-                    <h2 className = "section-title" style = {{marginBottom : '2%'}}>Available Listings From {storeDetails.name}</h2>
-                    {listings && Object.keys(listings).length > 0 ? <BasicTable columns = {['Quantity', 'View Details']} rows = {formatListings(listings)}/> : 'No Listings Available'}
+                    <h2 className = "section-title" style = {{marginBottom : '2%'}} id = "listings-from-store">Available Listings From {storeDetails.name}</h2>
+                    {listings && Object.keys(listings).length > 0 ? <BasicTable columns = {['Quantity', 'View Details']} rows = {formatListings(listings)} usedIn = "Listings"/> : 'No Listings Available'}
                   </Grid>
                   <Grid item xs = {3}>
                       <div className = "store_information" style = {{height : '100%'}}>
@@ -90,7 +95,7 @@ const Profile = (props) => {
               <Grid container spacing = {8} style ={{marginBottom : '4%'}}>
                   <Grid item xs = {9}>
                       <h2 className = "section-title" style = {{marginBottom: '2%'}}>Order History</h2>
-                        {orders && orders.length > 0 ? <BasicTable columns = {['Quantity', 'Order Date', 'Status', 'View Details']} rows = {filterOrders(orders)} /> : "No order history."}
+                        {orders && orders.length > 0 ? <BasicTable columns = {['Quantity', 'Order Date', 'Status', 'View Details']} rows = {filterOrders(orders)} usedIn = "Orders"/> : "No order history."}
                   </Grid>
                   <Grid item xs = {3}>
                   <Link to="/request" style={{ textDecoration: "None", textAlign: 'center'}} >

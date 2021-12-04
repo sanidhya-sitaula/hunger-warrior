@@ -34,12 +34,12 @@ export default function MediaCard(props) {
                 Status : {order_status === "Order Sent" ? "Order Received" : order_status}
             </Typography>: null}
             {type === "order" && date_posted ? <Typography variant="body2" color="text-secondary" style = {{marginBottom : '3%'}}>
-              Order Date: {new Date(date_posted.seconds * 1000).toString().slice(0, 15)}
+              Order Date: {date_posted.slice(0,10)}
               {console.log(date_posted)}
             </Typography>: null}
             
             {type === "request" && request_date ? <Typography variant="body2" color="text-secondary" style = {{marginBottom : '3%'}}>
-              Request Date: {new Date(request_date.seconds * 1000).toString().slice(0, 15)}
+              Request Date: {request_date.slice(0,10)}
               </Typography> : null}
     
             {request_status?  <Typography variant="body2" color="text-secondary" style = {{marginBottom : '3%'}}>
@@ -94,7 +94,7 @@ export default function MediaCard(props) {
           </Typography>: null}
           
           {type === "request" && request_date ? <Typography variant="body2" color="text-secondary" style = {{marginBottom : '3%'}}>
-            Request Date: {new Date(request_date.seconds * 1000).toString().slice(0, 15)}
+            Request Date: {request_date.slice(0,10)}
             </Typography> : null}
   
           {request_status?  <Typography variant="body2" color="text-secondary" style = {{marginBottom : '3%'}}>

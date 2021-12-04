@@ -4,19 +4,20 @@ import {
   deleteListing2,
   getAllListings2,
   getRequests2,
-  getOrders2
+  getOrders2,
+  getAllShelters
 } from "../../functions/index";
 import Footer from "../Footer";
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import Orders from './Orders'; 
 import Listings from "./Listings";
 import Requests from "./Requests";
-
+import SheltersMap from './SheltersMap';
 
 export let displayListings = () => {};
 
 const ShelterHome = (props) => {
-  const { user, handleLogout, userDetails, stores } = props;
+  const { user, handleLogout, userDetails, shelters } = props;
   const [orders, setOrders] = useState([{}]);
   const [listings, setListings] = useState([{}]);
   const [requests, setRequests] = useState([]);
@@ -53,6 +54,7 @@ const ShelterHome = (props) => {
       <Orders orders = {orders}/>
       <Listings listings = {listings} handleDelete = {handleListingDelete}/>
       <Requests requests = {requests} />
+      <SheltersMap userDetails = {userDetails} shelters = {shelters} />
       <Footer />
     </div>
   );

@@ -7,6 +7,7 @@ const SupportedStores = (props) => {
   const displayStores = () => {
     return stores.map((store) => {
       let profileLink = `/profile/${store.email}`
+      let listingsLink = `${profileLink}#listings-from-store`
       return (
         <Grid item xs={6}>
           <div className="store_information">
@@ -17,7 +18,7 @@ const SupportedStores = (props) => {
             <p className="store_location">{store.location}</p>
             <p className="store_phone">{store.phone}</p>
             <div className="store_information_buttons">
-              <Link className="store_links_1" to = '/viewStoreListings'>View Listings</Link>
+              <Link className="store_links_1" to = {listingsLink}>View Listings</Link>
               <Link className="store_links_2" to = {profileLink}>Store Profile</Link>
             </div>
           </div>

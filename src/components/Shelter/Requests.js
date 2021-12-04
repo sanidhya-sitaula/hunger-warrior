@@ -9,12 +9,22 @@ export let displayRequests = () => {};
 const Requests = (props) => {
   const { requests, handleDeleteRequest } = props;
 
+
+  const sortRequests = (requests) => {
+    requests.sort((a, b) => {
+      return new Date(b.date) - new Date(a.date)
+    })
+    return requests;
+  }
+
   displayRequests = (req, num_items = "") => {
     if (num_items == ""){
-      num_items = requests.length
+      num_items = req.length
     }
-    console.log('requests in dispaly: ', req);
-    return requests.slice(0, num_items).map((request) => {
+
+    req = sortRequests(requests); 
+
+    return req.slice(0, num_items).map((request) => {
       
       return (
         <Grid
