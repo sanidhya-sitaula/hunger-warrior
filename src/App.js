@@ -147,6 +147,18 @@ const App = () => {
                 />
               )}
             />
+           <Route path='/order/:id' component={() => <CreateNewOrder userDetails = {userDetails} handleLogout = {handleLogout} />} />
+            <Route
+              path="/allOrders"
+              component={() => (
+                <AllOrders
+                  userDetails={userDetails}
+                  handleLogout={handleLogout}
+                  role="Shelter"
+                />
+              )}
+            />
+
             <Route
               path="/vieworder/:id"
               component={() => (

@@ -42,8 +42,10 @@ const CreateNewOrder = (props) => {
     history.push("/");
   };
 
+  {console.log("LOOK: ", listing)}
   // AIzaSyAQGsvrhfxDeNrqgubmm4G9xC1sBpS5xSg
   return (
+    
     <div className="hero">
       <Navbar handleLogout={handleLogout} />
       <h1 className="section-title">Your order</h1>
