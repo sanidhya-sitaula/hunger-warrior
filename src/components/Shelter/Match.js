@@ -107,8 +107,8 @@ const Match = (props) => {
                 <div style={{ margin: "2% 0" }}>
                   <MapContainer
                     height="600px"
-                    shelterName={userDetails.name}
-                    storeName={store.name}
+                    shelterName={store.name}
+                    storeName={userDetails.name}
                     latlng1={{
                       latitude: userDetails.latitude,
                       longitude: userDetails.longitude,

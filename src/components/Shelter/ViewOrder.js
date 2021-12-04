@@ -51,8 +51,8 @@ const ViewOrder = (props) => {
           <MapContainer
             latlng1 = {{'latitude' : userDetails.latitude, 'longitude' : userDetails.longitude}}
             latlng2 = {{'latitude' : store.latitude, 'longitude' : store.longitude}}
-            storeName={store.name}
-            shelterName={userDetails.name}
+            storeName={userDetails.name}
+            shelterName={store.name}
             onClick={() => {
             }}
           />
