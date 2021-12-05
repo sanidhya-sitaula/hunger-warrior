@@ -10,8 +10,3 @@ thrown out. Hunger Warrior also provides a tracking service to participating gro
 logging food donations to use for tax incentives and exemptions. The Hunger Warrior service is
 not only beneficial to grocery stores, but also beneficial for the shelters because they will be able
 more easily acquire food items from reputable sources. This allows for the shelters to further
-<<<<<<< HEAD
-minimize costs of buying food and costs of maintenance.
-=======
-minimize costs of buying food and costs of maintenance.
->>>>>>> 318c825b86ae0377999826c7a839a33f67dd6174
