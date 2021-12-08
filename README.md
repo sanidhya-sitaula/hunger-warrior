@@ -31,3 +31,15 @@ npm install @mui/icons-material
 npm install --save @material-ui/icons
 npm start
 ```
+
+To re-run with everything already installed
+
+```
+cd Backend
+pip install -r requirements.txt
+python3 manage.py runserver &
+cd ..
+npm start
+```
+
+
