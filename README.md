@@ -36,7 +36,6 @@ To re-run with everything already installed
 
 ```
 cd Backend
-pip install -r requirements.txt
 python3 manage.py runserver &
 cd ..
 npm start
