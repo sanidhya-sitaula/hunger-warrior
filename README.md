@@ -17,7 +17,8 @@ Hunger Warrior requires [Node.js](https://nodejs.org/) v10+ to run.
 
 Install the dependencies and devDependencies and start the server.
 
-```cd Backend
+```
+cd Backend
 pip install -r requirements.txt
 python3 manage.py runserver &
 cd ..
