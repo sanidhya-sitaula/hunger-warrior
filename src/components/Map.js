@@ -10,7 +10,6 @@ import Geocode from "react-geocode";
 
 Geocode.setLanguage("en");
 Geocode.setRegion("us");
-Geocode.setApiKey("AIzaSyAQGsvrhfxDeNrqgubmm4G9xC1sBpS5xSg");
 
 class MapContainer extends React.Component {
   state = {
@@ -60,7 +59,7 @@ class MapContainer extends React.Component {
     return this.state.loading ? (
       "LOADING..."
     ) : (
-      <LoadScript googleMapsApiKey="AIzaSyAQGsvrhfxDeNrqgubmm4G9xC1sBpS5xSg">
+      <LoadScript googleMapsApiKey="">
         <GoogleMap
           mapContainerStyle={this.mapStyles}
           zoom={this.props.address2 ? 10 : 13}
