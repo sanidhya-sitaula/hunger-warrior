@@ -12,7 +12,6 @@ import Geocode from "react-geocode";
 
 Geocode.setLanguage("en");
 Geocode.setRegion("us");
-Geocode.setApiKey("AIzaSyAQGsvrhfxDeNrqgubmm4G9xC1sBpS5xSg");
 
 class SheltersMap extends React.Component {
   state = {
@@ -76,7 +75,7 @@ class SheltersMap extends React.Component {
         <h2 class = "section-title">Shelters Near You</h2>
         {!this.state.loading ? (
           <div style={{ margin : "2% auto" }}>
-            <LoadScript googleMapsApiKey="AIzaSyAQGsvrhfxDeNrqgubmm4G9xC1sBpS5xSg">
+            <LoadScript googleMapsApiKey="">
               <GoogleMap
                 mapContainerStyle={this.mapStyles}
                 zoom={11}
